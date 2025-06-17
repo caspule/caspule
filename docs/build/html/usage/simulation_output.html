@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulation Output &mdash; generate_InitCond 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data-Analysis Helpers" href="data_analysis.html" />
+    <link rel="prev" title="Example System Setup" href="example_system_setup.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            generate_InitCond
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_system_setup.html">Example System Setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Simulation Output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#thermodynamic-data-thermo-fname-dat">Thermodynamic Data: <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;fName&gt;.dat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bondformation-breaking-data-bonddata-fname-dat">Bond‐Formation/Breaking Data: <code class="docutils literal notranslate"><span class="pre">BondData_&lt;fName&gt;.dat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#collectivevariable-trajectory-fname-colvars-traj">Collective‐Variable Trajectory: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.traj</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lammps-dump-trajectory-traj-fname-dump">LAMMPS Dump Trajectory: <code class="docutils literal notranslate"><span class="pre">traj_&lt;fName&gt;.dump</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#colvars-metadynamics-hills-fname-colvars-meta-radgy-hills-traj">Colvars Metadynamics Hills: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.meta-radgy.hills.traj</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#potential-of-mean-force-pmf-fname-pmf">Potential of Mean Force (PMF): <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.pmf</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#restart-files-tp-restart-and-final-state-fname-restart">Restart Files: <code class="docutils literal notranslate"><span class="pre">*_tp_*.restart</span></code> and <code class="docutils literal notranslate"><span class="pre">final_state_&lt;fName&gt;.restart</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lammps-log-file-fname-log">LAMMPS Log File: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.log</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary-of-all-simulation-outputs">Summary of All Simulation Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_analysis.html">Data-Analysis Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">generate_InitCond</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Simulation Output</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/usage/simulation_output.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="simulation-output">
+<h1>Simulation Output<a class="headerlink" href="#simulation-output" title="Link to this heading"></a></h1>
+<p>This page documents all of the primary output files produced by the pipeline and by LAMMPS during and after the simulation. Each subsection below shows a representative excerpt (or header) from a given file, followed by a line‐by‐line explanation of its contents. No analysis is performed here—just plain descriptions of what each column or section means.</p>
+<section id="thermodynamic-data-thermo-fname-dat">
+<h2>Thermodynamic Data: <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;fName&gt;.dat</span></code><a class="headerlink" href="#thermodynamic-data-thermo-fname-dat" title="Link to this heading"></a></h2>
+<p>Below is the header line and the first few rows of a typical thermodynamic output file, named <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;fName&gt;.dat</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Steps Temp KinEng PotEng Epair Ebond Eangle Bonds
+1000000 309.9092980089979 12932.006720561228 2421.2753602970483 -5608.9113003346756 -1676.5739699962255 9706.7606306279486 14845
+2000000 308.4459769650038 12870.944733402906 580.1671941493225 -6212.513108889987 -2765.9452470589113 9558.625550098221 15019
+3000000 308.9000673416380 12889.893180061661 -663.6937637213039 -6715.222056123977 -3378.1828104342594 9429.711102836933 15138
+4000000 307.9393191012913 12849.802731724838 -1247.4935140060538 -7047.389388496154 -3702.186514574762 9502.082389064863 15199
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><strong>Header</strong>:
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Steps</span> <span class="pre">Temp</span> <span class="pre">KinEng</span> <span class="pre">PotEng</span> <span class="pre">Epair</span> <span class="pre">Ebond</span> <span class="pre">Eangle</span> <span class="pre">Bonds</span></code></p>
+<ol class="arabic simple">
+<li><p><cite>Steps</cite>
+- The current LAMMPS timestep (for example, 1 000 000; 2 000 000; etc.).</p></li>
+<li><p><cite>Temp</cite>
+- The instantaneous temperature (in Kelvin) at that step.</p></li>
+<li><p><cite>KinEng</cite>
+- The total kinetic energy of the system (in kcal/mol).</p></li>
+<li><p><cite>PotEng</cite>
+- The total potential energy (in kcal/mol), equal to the sum of pair, bond, angle, and any other contributions.</p></li>
+<li><p><cite>Epair</cite>
+- The contribution from pairwise (nonbonded) interactions (in kcal/mol).</p></li>
+<li><p><cite>Ebond</cite>
+- The energy stored in bonds (in kcal/mol).</p></li>
+<li><p><cite>Eangle</cite>
+- The energy stored in angles (in kcal/mol).</p></li>
+<li><p><cite>Bonds</cite>
+- The total number of bonds currently present in the system (including dynamically formed ones).</p></li>
+</ol>
+</li>
+<li><p><strong>First Data Row</strong> (for example,
+<code class="docutils literal notranslate"><span class="pre">1000000</span> <span class="pre">309.9092980089979</span> <span class="pre">12932.006720561228</span> <span class="pre">2421.2753602970483</span> <span class="pre">-5608.9113003346756</span> <span class="pre">-1676.5739699962255</span> <span class="pre">9706.7606306279486</span> <span class="pre">14845</span></code>)
+1. <cite>1000000</cite> → At timestep 1 000 000.
+2. <cite>309.9092980089979</cite> → Temperature ≈ 309.91 K.
+3. <cite>12932.006720561228</cite> → Kinetic energy ≈ 12 932.0 kcal/mol.
+4. <cite>2421.2753602970483</cite> → Potential energy ≈ 2 421.28 kcal/mol.
+5. <cite>-5608.9113003346756</cite> → Pair energy ≈ –5 608.91 kcal/mol.
+6. <cite>-1676.5739699962255</cite> → Bond energy ≈ –1 676.57 kcal/mol.
+7. <cite>9706.7606306279486</cite> → Angle energy ≈ 9 706.76 kcal/mol.
+8. <cite>14845</cite> → There are 14 845 bonds at this step.</p></li>
+</ul>
+<p>Subsequent lines follow the same column order at steps 2 000 000, 3 000 000, etc.</p>
+</section>
+<section id="bondformation-breaking-data-bonddata-fname-dat">
+<h2>Bond‐Formation/Breaking Data: <code class="docutils literal notranslate"><span class="pre">BondData_&lt;fName&gt;.dat</span></code><a class="headerlink" href="#bondformation-breaking-data-bonddata-fname-dat" title="Link to this heading"></a></h2>
+<p>Below are a few lines from the cumulative bond data file, named <code class="docutils literal notranslate"><span class="pre">BondData_&lt;fName&gt;.dat</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1000000 1566 521
+2000000 2417 1198
+3000000 3330 1992
+4000000 4191 2792
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul>
+<li><p><strong>Columns</strong>:
+1. <strong>Step</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The LAMMPS timestep at which the data was recorded (every “dt_thermo” steps, for example 1 000 000; 2 000 000; etc.).</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p><strong>Cumulative Bonds Formed</strong>
+- The total number of new bonds formed by the “bond/create” fix up to that step.</p></li>
+<li><p><strong>Cumulative Bonds Broken</strong>
+- The total number of bonds broken by the “bond/break” fix up to that step.</p></li>
+</ol>
+</li>
+<li><p><strong>First Row</strong> (<code class="docutils literal notranslate"><span class="pre">1000000</span> <span class="pre">1566</span> <span class="pre">521</span></code>):
+1. At timestep 1 000 000.
+2. 1 566 bonds have been formed so far.
+3. 521 bonds have been broken so far.</p></li>
+<li><p><strong>Second Row</strong> (<code class="docutils literal notranslate"><span class="pre">2000000</span> <span class="pre">2417</span> <span class="pre">1198</span></code>):
+1. At timestep 2 000 000.
+2. 2 417 total bonds formed.
+3. 1 198 total bonds broken.</p></li>
+</ul>
+<p>And so on for additional timesteps.</p>
+</section>
+<section id="collectivevariable-trajectory-fname-colvars-traj">
+<h2>Collective‐Variable Trajectory: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.traj</span></code><a class="headerlink" href="#collectivevariable-trajectory-fname-colvars-traj" title="Link to this heading"></a></h2>
+<p>Below is the header and a few lines from the colvars trajectory file, named <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.traj</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># step         Rg1
+       0    2.76034911120119e+02
+   50000    2.74510753203738e+02
+  100000    2.73564239569613e+02
+  150000    2.73851073534982e+02
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul>
+<li><p><strong>Header</strong>:
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">step</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Rg1</span></code>
+1. <cite>step</cite></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The LAMMPS timestep at which the colvar (radius of gyration, Rg) was recorded.</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p><cite>Rg1</cite>
+- The computed radius of gyration (in Å) for the polymer ensemble, as specified in the corresponding “.colvars” input file.</p></li>
+</ol>
+</li>
+<li><p><strong>First Data Row</strong> (<code class="docutils literal notranslate"><span class="pre">0</span>&#160; <span class="pre">2.76034911120119e+02</span></code>):
+1. At timestep 0 (starting point).
+2. Rg1 ≈ 276.0349 Å.</p></li>
+<li><p><strong>Second Data Row</strong> (<code class="docutils literal notranslate"><span class="pre">50000</span>&#160; <span class="pre">2.74510753203738e+02</span></code>):
+1. At timestep 50 000.
+2. Rg1 ≈ 274.5108 Å.</p></li>
+<li><p>And so on—for every 50 000 steps, a new Rg value is recorded.</p></li>
+</ul>
+</section>
+<section id="lammps-dump-trajectory-traj-fname-dump">
+<h2>LAMMPS Dump Trajectory: <code class="docutils literal notranslate"><span class="pre">traj_&lt;fName&gt;.dump</span></code><a class="headerlink" href="#lammps-dump-trajectory-traj-fname-dump" title="Link to this heading"></a></h2>
+<p>Below is a representative excerpt from the dump file, named <code class="docutils literal notranslate"><span class="pre">traj_&lt;fName&gt;.dump</span></code>. Every block begins with a header indicating the timestep, number of atoms, and box bounds. Then the “ATOMS” section lists each atom’s properties.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ITEM: TIMESTEP
+0
+ITEM: NUMBER OF ATOMS
+14000
+ITEM: BOX BOUNDS pp pp pp
+-4.2000000000000000e+02 4.2000000000000000e+02
+-4.2000000000000000e+02 4.2000000000000000e+02
+-4.2000000000000000e+02 4.2000000000000000e+02
+ITEM: ATOMS id type mol mass x y z xu yu zu
+10550 4 151 1000 -184.08 -109.786 -288.422 -184.08 -109.786 -288.422
+1331  2  20  1000 -182.748 -155.882 -274.969 -182.748 -155.882 -274.969
+
+… (more atom lines) …
+
+ITEM: TIMESTEP
+10000000
+ITEM: NUMBER OF ATOMS
+14000
+ITEM: BOX BOUNDS pp pp pp
+-4.2000000000000000e+02 4.2000000000000000e+02
+-4.2000000000000000e+02 4.2000000000000000e+02
+-4.2000000000000000e+02 4.2000000000000000e+02
+ITEM: ATOMS id type mol mass x y z xu yu zu
+10536 4 151 1000 -182.684 -104.62 -299.423 -182.684 -104.62 -299.423
+10540 4 151 1000 -197.195 -86.1441 -295.77 -197.195 -86.1441 -295.77
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul>
+<li><p><strong>`ITEM: TIMESTEP` / `0`</strong>
+- Indicates that the following block corresponds to timestep 0.</p></li>
+<li><p><strong>`ITEM: NUMBER OF ATOMS` / `14000`</strong>
+- There are 14 000 atoms in the system at every dump interval.</p></li>
+<li><p><strong>`ITEM: BOX BOUNDS pp pp pp`</strong>
+- The box boundaries (periodic in x, y, z):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>X: from –420.0 Å to +420.0 Å</p></li>
+<li><p>Y: from –420.0 Å to +420.0 Å</p></li>
+<li><p>Z: from –420.0 Å to +420.0 Å</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>`ITEM: ATOMS id type mol mass x y z xu yu zu`</strong>
+- Columns for each atom line:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><cite>id</cite> → Atom ID (unique integer).</p></li>
+<li><p><cite>type</cite> → Atom type (1 to 4).</p></li>
+<li><p><cite>mol</cite> → Molecule ID (which polymer the atom belongs to).</p></li>
+<li><p><cite>mass</cite> → Atom mass (in amu).</p></li>
+<li><p><cite>x y z</cite> → Wrapped coordinates (in Å).</p></li>
+<li><p><cite>xu yu zu</cite> → Unwrapped coordinates (in Å).</p></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p><strong>Example atom line</strong>
+<code class="docutils literal notranslate"><span class="pre">10550</span> <span class="pre">4</span> <span class="pre">151</span> <span class="pre">1000</span> <span class="pre">-184.08</span> <span class="pre">-109.786</span> <span class="pre">-288.422</span> <span class="pre">-184.08</span> <span class="pre">-109.786</span> <span class="pre">-288.422</span></code>:
+1. <cite>10550</cite> → Atom ID.
+2. <cite>4</cite> → Atom type (type 4 = “BL” bead).
+3. <cite>151</cite> → Molecule ID number (this atom belongs to polymer #151).
+4. <cite>1000</cite> → Mass of bead = 1000 amu.
+5. <cite>-184.08 -109.786 -288.422</cite> → Wrapped x, y, z coordinates (inside the box).
+6. <cite>-184.08 -109.786 -288.422</cite> → Unwrapped coordinates (identical here, no boundary crossing).</p></li>
+<li><p><strong>Next block</strong> at timestep 10 000 000 has the same structure—box bounds remain constant, and new atom coordinates appear.</p></li>
+</ul>
+</section>
+<section id="colvars-metadynamics-hills-fname-colvars-meta-radgy-hills-traj">
+<h2>Colvars Metadynamics Hills: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.meta-radgy.hills.traj</span></code><a class="headerlink" href="#colvars-metadynamics-hills-fname-colvars-meta-radgy-hills-traj" title="Link to this heading"></a></h2>
+<p>Below is a snippet from the metadynamics hills trajectory file, named <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.meta-radgy.hills.traj</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   0     2.65169992360953e+02    1.00000000000000e+00   2.00000000000000e-01
+ 500     2.65195448031953e+02    1.00000000000000e+00   2.00000000000000e-01
+1000     2.65215417786256e+02    1.00000000000000e+00   2.00000000000000e-01
+1500     2.65194930116933e+02    1.00000000000000e+00   2.00000000000000e-01
+2000     2.65220340394216e+02    1.00000000000000e+00   2.00000000000000e-01
+2500     2.65191453444289e+02    1.00000000000000e+00   2.00000000000000e-01
+3000     2.65124148120669e+02    1.00000000000000e+00   2.00000000000000e-01
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul>
+<li><p><strong>Columns</strong>:
+1. <strong>Time Index</strong> (number of colvar steps, not LAMMPS timesteps)</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Here <cite>0</cite>, <cite>500</cite>, <cite>1000</cite>, etc., correspond to successive hills added by metadynamics.</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p><strong>Colvar Value (Rg1)</strong>
+- The R&lt;sub&gt;g&lt;/sub&gt; value (in Å) at which a Gaussian hill was deposited (e.g., <cite>2.65169992360953e+02</cite> ≈ 265.17 Å).</p></li>
+<li><p><strong>Hill Weight</strong>
+- The height of that hill (e.g., <cite>1.00000000000000e+00</cite> = 1 kcal/mol).</p></li>
+<li><p><strong>Hill Width</strong>
+- The width of the Gaussian hill (e.g., <cite>2.00000000000000e-01</cite> = 0.2 Å).</p></li>
+</ol>
+</li>
+</ul>
+<p>Each line corresponds to one hill added to the free‐energy bias. Over time, these hills accumulate to reconstruct a free‐energy profile along R&lt;sub&gt;g&lt;/sub&gt;.</p>
+</section>
+<section id="potential-of-mean-force-pmf-fname-pmf">
+<h2>Potential of Mean Force (PMF): <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.pmf</span></code><a class="headerlink" href="#potential-of-mean-force-pmf-fname-pmf" title="Link to this heading"></a></h2>
+<p>Below is a small segment of a PMF output file, named <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.pmf</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># 1
+#          0         1       277  0
+
+ 0.5  1711.9
+ 1.5  1711.9
+ 2.5  1711.9
+ 3.5  1711.9
+ 4.5  1711.9
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul>
+<li><p><strong>Header lines</strong>:
+- <cite># 1</cite> → A comment, often indicating the replicate number or block.
+- <cite>#          0         1       277  0</cite> → Metadata about binning or file format (e.g., bin indices, colvar range, etc.).</p></li>
+<li><p><strong>Data columns</strong>:
+1. <strong>Bin Center</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>For example, <cite>0.5</cite> means the PMF value at R&lt;sub&gt;g&lt;/sub&gt; = 0.5 Å (assuming bins of width 1 Å).</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p><strong>PMF Value</strong>
+- Here <cite>1711.9</cite> is the free‐energy (kcal/mol) at that bin center.</p></li>
+</ol>
+</li>
+</ul>
+<p>Subsequent lines list PMF at bin centers: 1.5 Å, 2.5 Å, etc.</p>
+</section>
+<section id="restart-files-tp-restart-and-final-state-fname-restart">
+<h2>Restart Files: <code class="docutils literal notranslate"><span class="pre">*_tp_*.restart</span></code> and <code class="docutils literal notranslate"><span class="pre">final_state_&lt;fName&gt;.restart</span></code><a class="headerlink" href="#restart-files-tp-restart-and-final-state-fname-restart" title="Link to this heading"></a></h2>
+<p>There are two types of restart files:</p>
+<ol class="arabic">
+<li><p><strong>Intermediate Restart Files</strong> (<cite>&lt;fName&gt;_tp_*.restart</cite>)
+- These appear every “dt_restart” timesteps (for example, 25 000 000; 50 000 000; etc.).
+- Each contains a binary snapshot of all atom positions, velocities, bonds, and simulation state.
+- To resume a LAMMPS run from a given restart:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lmp_serial<span class="w"> </span>-r<span class="w"> </span>&lt;fName&gt;_tp_25000000.restart<span class="w"> </span>-in<span class="w"> </span>&lt;restart_input.in&gt;
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>They ensure that, if the job stops early, you can pick up exactly where you left off.</p></li>
+</ul>
+</li>
+<li><p><strong>Final Restart File</strong> (<cite>final_state_&lt;fName&gt;.restart</cite>)
+- Created at the very end of the production run.
+- Contains the final state of atoms, bonds, and simulation parameters.
+- Typically used for post‐processing (e.g., visualization in OVITO) or as a starting point for a new simulation.</p></li>
+</ol>
+</section>
+<section id="lammps-log-file-fname-log">
+<h2>LAMMPS Log File: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.log</span></code><a class="headerlink" href="#lammps-log-file-fname-log" title="Link to this heading"></a></h2>
+<p>The LAMMPS log file (<code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.log</span></code>) captures:</p>
+<ul class="simple">
+<li><p>Startup messages (compiled fixes, commands parsed).</p></li>
+<li><p>“Read_data” confirmation (number of atoms, box dimensions).</p></li>
+<li><p>Warnings or errors encountered during the run.</p></li>
+<li><p>Per‐step thermo output (if not redirected entirely to <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;fName&gt;.dat</span></code>).</p></li>
+<li><p>Summary information when a restart is written.</p></li>
+</ul>
+<p>A typical snippet might look like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LAMMPS (5Dec20)
+Reading data file ...
+  orthogonal box = (-420 420) x (-420 420) y (-420 420) z
+  14000 atoms
+  13800 bonds
+  13600 angles
+[Many lines of neighbor lists, fixes applied, etc.]
+Step Temp KinEng PotEng ...
+1000000 309.909 12932.007 2421.2753 ...
+[etc.]
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><strong>“LAMMPS (5Dec20)”</strong>
+- The version of the LAMMPS executable.</p></li>
+<li><p><strong>“Reading data file …”</strong>
+- Confirms which data file was read and its contents.</p></li>
+<li><p><strong>Box dimensions</strong>
+- The <cite>orthogonal box = …</cite> line shows the x/y/z bounds.</p></li>
+<li><p><strong>Counts</strong>
+- Number of atoms, bonds, angles, etc.</p></li>
+<li><p><strong>Fixes and styles</strong>
+- Details about which styles (e.g., “angle_style cosine”) were activated.</p></li>
+<li><p><strong>Per‐step Thermo lines</strong> (if not suppressed entirely).</p></li>
+</ul>
+<p>Even if most thermo is printed to the separate “Thermo_*.dat” file, the log file still records initial setup and any warnings or errors.</p>
+</section>
+<section id="summary-of-all-simulation-outputs">
+<h2>Summary of All Simulation Outputs<a class="headerlink" href="#summary-of-all-simulation-outputs" title="Link to this heading"></a></h2>
+<p>Below is a checklist of all output files described above. Each file’s purpose is summarized in one sentence:</p>
+<ul class="simple">
+<li><p><strong>``Thermo_&lt;fName&gt;.dat``</strong>
+– Tabulated thermodynamic quantities (step, temperature, kinetic &amp; potential energies, pair/bond/angle energies, and bond count) recorded every “dt_thermo” steps.</p></li>
+<li><p><strong>``BondData_&lt;fName&gt;.dat``</strong>
+– Cumulative counts of bonds formed and broken at each “dt_thermo” interval.</p></li>
+<li><p><strong>``&lt;fName&gt;.colvars.traj``</strong>
+– Trajectory of the collective variable(s) (e.g., radius of gyration) recorded at each colvars step.</p></li>
+<li><p><strong>``traj_&lt;fName&gt;.dump``</strong>
+– Full per‐atom snapshot (ID, type, molecule, mass, wrapped and unwrapped coordinates) every “dt_movie” steps.</p></li>
+<li><p><strong>``&lt;fName&gt;.colvars.meta-radgy.hills.traj``</strong>
+– Metadynamics hill data: bin center (colvar), hill weight, hill width at each “newHillFrequency” step.</p></li>
+<li><p><strong>``&lt;fName&gt;.pmf``</strong>
+– Potential of mean force (free‐energy) vs. colvar bin center for the final bias.</p></li>
+<li><p><strong>``&lt;fName&gt;_tp_*.restart``</strong>
+– Intermediate binary restart files, written every “dt_restart” steps.</p></li>
+<li><p><strong>``final_state_&lt;fName&gt;.restart``</strong>
+– Final restart file at the end of the production run.</p></li>
+<li><p><strong>``&lt;fName&gt;.log``</strong>
+– LAMMPS log, containing startup messages, setup summary, any warnings/errors, and (optionally) thermo output.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="example_system_setup.html" class="btn btn-neutral float-left" title="Example System Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="data_analysis.html" class="btn btn-neutral float-right" title="Data-Analysis Helpers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aniruddha Chattaraj, David Kanovich.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
