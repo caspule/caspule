@@ -52,4 +52,10 @@ html_sidebars = {
         'searchbox.html',   # Search field
     ]
 }
+
+html_logo = f"_static/img/Logo.png" 
+html_theme_options = {
+    "logo_only": True,                 # show only the logo, not project name text
+    "display_version": False           # hide the version string
+}
 # --
