@@ -1,102 +1,128 @@
 Installation
 ============
-This short guide shows three practical ways to obtain **LAMMPS** with the
-``bond/create/random`` fix that you need for the polymer‐network examples in
-*generate_InitCond*:
 
-* **Conda-Forge binary** – easiest, already includes *EXTRA-BOND*.
-* **Spack package** – similarly painless, great for HPC clusters.
-* **Build from source with CMake** – needed if you want the very latest
-  features or special compiler options.
+This guide walks you through compiling **LAMMPS 3 Mar 2020** with the
+custom ``bond/create/random`` fix needed for the *generate_InitCond*
+polymer-network examples.  
+The steps assume access to an FASRC‐style cluster, but they also work
+on any system that provides recent CMake, GCC ≥ 14, and Open MPI.
 
 .. note::
 
-   The ``bond/create/random`` style lives in the **EXTRA-BOND** package
-   (commit 07 Sep 2022 and later).  Whatever route you choose, just make sure
-   that *EXTRA-BOND* ends up **ON**.
+   ``bond/create/random`` is *not* part of vanilla 3 Mar 2020.
+   We patch it in manually from the
+   `pdebuyl/lammps *fbc_random* branch <https://github.com/pdebuyl/lammps/tree/fbc_random/src/MC>`_.
 
-----------------------------------------------------
-1. Conda-Forge (Linux, macOS, Windows WSL)
-----------------------------------------------------
-::
+Prerequisites
+-------------
 
-   # create a fresh environment called “lammps”
-   conda create -n lammps -c conda-forge lammps
-   conda activate lammps
+1. **Start an interactive job**
 
-The ``lammps`` meta-package published on *conda-forge* is built with almost
-every optional package **including** ``EXTRA-BOND``.  Confirm with::
+   .. code-block:: bash
 
-   lmp -h | grep bond/create/random
+      salloc -p test --mem 4G -t 0-3:00
 
-If you see the line, you’re good to go.
+2. **Load build tools**
 
-----------------------------------------------------
-2. Spack (particularly handy on clusters)
-----------------------------------------------------
-::
+   .. code-block:: bash
 
-   spack install lammps +extra-bond +molecule  # add any other “+pkg” you need
-   spack load lammps
+      module avail  # just to confirm the names below
+      module load cmake/3.31.6-fasrc01
+      module load gcc/14.2.0-fasrc01
+      module load openmpi/5.0.5-fasrc01
 
-Unlike Conda, *Spack* lets you toggle individual packages at install time.
-The “+extra-bond” variant turns on **EXTRA-BOND** in the generated CMake
-configuration.
+Source code
+-----------
 
-----------------------------------------------------
-3. Build from source with CMake
-----------------------------------------------------
-.. code-block:: bash
+3. **Download and unpack LAMMPS 3 Mar 2020**
 
-   git clone https://github.com/lammps/lammps.git
-   mkdir -p lammps/build && cd lammps/build
+   .. code-block:: bash
 
-   cmake ../cmake \
-     -DPKG_MOLECULE=yes \        # needed for read_data on polymer topologies
-     -DPKG_EXTRA-BOND=yes \      # <-- bond/create/random lives here
-     -DCMAKE_INSTALL_PREFIX=$HOME/.local \
-     -DLAMMPS_EXCEPTIONS=yes     # nicer run-time error messages
+      wget https://download.lammps.org/tars/lammps-3Mar2020.tar.gz
+      tar -xf lammps-3Mar2020.tar.gz
+      cd lammps-3Mar2020
 
-   make -j$(nproc)
-   make install    # installs into $HOME/.local by default
+4. **Add the patched fix**
 
-Add *OpenMP* or *MPI* flags if you want parallel execution, e.g.
-``-DBUILD_OMP=yes`` or ``-DBUILD_MPI=yes``.
+   Copy the two files below into *src/MC* (create the folder if absent):
 
-----------------------------------------------------
+   .. code-block:: bash
+
+      cp /path/to/fix_bond_create_random.cpp src/MC/
+      cp /path/to/fix_bond_create_random.h   src/MC/
+
+   (They come from the *fbc_random* branch linked above.)
+
+Configure & build
+-----------------
+
+5. **Create a build directory**
+
+   .. code-block:: bash
+
+      mkdir build && cd build
+
+6. **Configure with CMake** (MPI build):
+
+   .. code-block:: bash
+
+      cmake ../cmake -DBUILD_MPI=on
+
+7. **Enable required packages**
+
+   The 2020 release still uses old package names:
+
+   .. code-block:: bash
+
+      cmake -DPKG_MC=on \
+            -DPKG_MOLECULE=on \
+            -DPKG_USER-MISC=on \
+            -DPKG_USER-COLVARS=on .
+
+8. **Compile**
+
+   .. code-block:: bash
+
+      cmake --build . -j$(nproc)
+
+   The resulting executable is:
+
+   ``lammps-3Mar2020/build/lmp``
+
 Sanity check
-----------------------------------------------------
-Whichever route you picked, always verify the fix is present:
+------------
+
+Verify that the new fix is available:
 
 .. code-block:: bash
 
-   $ lmp -h | grep bond/create/random
-     bond/create/random       Create bonds (random partner selection)  [EXTRA-BOND]
+   ./lmp -h | grep bond/create/random
 
-If nothing appears, the binary you are calling was *not* compiled with
-**EXTRA-BOND** – revisit the steps above.
+Expected output::
 
-----------------------------------------------------
-(Optional) Python wrapper
-----------------------------------------------------
-If you plan to drive LAMMPS from Python notebooks:
+   bond/create/random       Create bonds (random partner selection)  [MC]
+
+If nothing appears, the patch was not picked up—revisit **Step 4** or
+ensure ``-DPKG_MC=on`` was passed to CMake.
+
+Optional: Python wrapper
+------------------------
+
+If you plan to control LAMMPS from Jupyter/NumPy:
 
 .. code-block:: bash
 
-   # Conda/Spack installs the wrapper automatically.
-   # For a manual build:
    pip install --user lammps-cython
 
-----------------------------------------------------
 Troubleshooting
-----------------------------------------------------
+---------------
 
-* **“Package extra-bond is not enabled”** – you are pointing to an old binary.
-  Make sure ``$(which lmp)`` is the executable you just installed.
+* **“Package MC is not enabled”**  
+  Re-run CMake with ``-DPKG_MC=on`` and rebuild.
 
-* **“New bond exceeded bonds per atom …”** – increase the *maxbond* argument in
-  your ``bond/create/random`` fix or raise ``extra/special/per/atom`` when you
-  call ``read_data``.  (See the *LAMMPS* docs for details.)
+* **“New bond exceeded bonds per atom …”**  
+  Increase *maxbond* in your ``bond/create/random`` command or raise
+  ``extra/special/per/atom`` in the ``read_data`` section.
 
-With LAMMPS properly installed you can now run the example pipeline and the
-analysis notebooks without modification.
+With LAMMPS successfully built you can run the *generate_InitCond*
+pipeline and companion analysis notebooks without further modification.
