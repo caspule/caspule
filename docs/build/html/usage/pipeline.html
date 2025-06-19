@@ -47,13 +47,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Pipeline Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#wrapper-variables">1 Wrapper variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#end-to-end-flow">2 End-to-end flow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#detailed-step-by-step">3 Detailed step-by-step</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#file-cheat-sheet">4 File cheat-sheet</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pipeline Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_system_setup.html">Example System Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="simulation_output.html">Simulation Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_analysis.html">Data-Analysis Helpers</a></li>
@@ -86,78 +80,75 @@
              
   <section id="pipeline-overview">
 <h1>Pipeline Overview<a class="headerlink" href="#pipeline-overview" title="Link to this heading"></a></h1>
-<p><code class="file docutils literal notranslate"><span class="pre">create_InitCoor.sh</span></code> is the <em>orchestrator</em>: edit a few variables at the
-top, run it once, and you receive a complete <strong>LAMMPS start-up folder</strong></p>
+<p><code class="file docutils literal notranslate"><span class="pre">create_InitCoor.sh</span></code> is the <em>orchestrator</em>: edit a few variables at
+the top, run it once, and you receive a complete <strong>LAMMPS start-up
+folder</strong> containing</p>
 <ul class="simple">
-<li><p><strong>IC_tmp.xyz</strong>   — packed bead coordinates (Packmol)</p></li>
-<li><p><strong>b70_N200_L&lt;L&gt;.data</strong>   — Moltemplate data file</p></li>
+<li><p><strong>IC_tmp.xyz</strong> — packed bead coordinates (Packmol)</p></li>
+<li><p><strong>b70_N200_L&lt;L&gt;.data</strong> — Moltemplate data file</p></li>
 <li><p><strong>N200_Rg_L&lt;L&gt;.colvars</strong> — colvars tuned to the system size</p></li>
-<li><p><strong>b70_N200_L&lt;L&gt;.in</strong>     — production input (+ optional Slurm script)</p></li>
+<li><p><strong>b70_N200_L&lt;L&gt;.in</strong> — production input (+ optional Slurm script)</p></li>
 </ul>
-<p>The diagram shows the flow; the numbered sections explain every call in
-the wrapper, which files it consumes, and which files it writes.</p>
-<section id="wrapper-variables">
-<h2>1 Wrapper variables<a class="headerlink" href="#wrapper-variables" title="Link to this heading"></a></h2>
+<p>The diagram below shows the flow; the numbered sections explain every
+call in the wrapper, which files it consumes, and which files it writes.</p>
+<p class="rubric">Wrapper variables</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 17.6%" />
 <col style="width: 82.4%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Bash var</p></th>
-<th class="head"><p>Meaning / effect</p></th>
+<tr class="row-odd"><th class="head"><p><strong>Bash var</strong></p></th>
+<th class="head"><p><strong>Meaning / effect</strong></p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
-<td><p>Segment <strong>repeat count</strong> (10 → chain length = 10 × <code class="docutils literal notranslate"><span class="pre">len(seg)</span></code>)</p></td>
+<td><p>Segment <strong>repeat count</strong> (<code class="docutils literal notranslate"><span class="pre">10</span></code> → chain length = <code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">×</span> <span class="pre">len(seg)</span></code>)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">seg</span></code></p></td>
-<td><p>Sticker/spacer pattern <code class="docutils literal notranslate"><span class="pre">2212212</span></code> (2 = spacer, 1 = sticker)</p></td>
+<td><p>Sticker/spacer pattern <code class="docutils literal notranslate"><span class="pre">2212212</span></code> (<code class="docutils literal notranslate"><span class="pre">2</span></code> = spacer, <code class="docutils literal notranslate"><span class="pre">1</span></code> = sticker)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NA</span></code> / <code class="docutils literal notranslate"><span class="pre">NB</span></code></p></td>
-<td><p>Number of <strong>A-chains</strong> / <strong>B-chains</strong> (100 / 100)</p></td>
+<td><p>Number of <strong>A-chains</strong> / <strong>B-chains</strong> (<code class="docutils literal notranslate"><span class="pre">100</span></code> / <code class="docutils literal notranslate"><span class="pre">100</span></code>)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">L</span></code></p></td>
-<td><p>Half-box length (500 Å) → Packmol cube <span class="math notranslate nohighlight">\([-L,L]^3\)</span></p></td>
+<td><p>Half-box length (<code class="docutils literal notranslate"><span class="pre">500</span> <span class="pre">Å</span></code>) → Packmol cube <span class="math notranslate nohighlight">\([-L, L]^3\)</span></p></td>
 </tr>
 </tbody>
 </table>
 <p>All filenames downstream are built from these numbers, e.g.
-<code class="file docutils literal notranslate"><span class="pre">b70_N200_L500.lt</span></code> (“b” = 70 % beads, “N200” = 100 + 100 chains).</p>
-</section>
-<section id="end-to-end-flow">
-<h2>2 End-to-end flow<a class="headerlink" href="#end-to-end-flow" title="Link to this heading"></a></h2>
+<code class="file docutils literal notranslate"><span class="pre">b70_N200_L500.lt</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code> = 70 % beads, <code class="docutils literal notranslate"><span class="pre">N200</span></code> = 100 + 100
+chains).</p>
+<p class="rubric">End-to-end flow</p>
 <p>The helper chain executed by <em>create_InitCoor.sh</em>:</p>
 <ol class="arabic simple">
-<li><p><strong>LT_writer.py</strong>        → monomer LT + XYZ</p></li>
-<li><p><a href="#id1"><span class="problematic" id="id2">**</span></a>writePackmolInput.py**→ Packmol recipe</p></li>
-<li><p><strong>Packmol</strong>             → IC_tmp.xyz</p></li>
-<li><p><strong>writeSysLT.py</strong>       → system LT</p></li>
-<li><p><strong>Moltemplate</strong>         → b70_N200_L&lt;L&gt;.data</p></li>
-<li><p><strong>updateColVar.py</strong>     → N200_Rg_L&lt;L&gt;.colvars</p></li>
-<li><p><strong>updateInput.py</strong>      → b70_N200_L&lt;L&gt;.in + <a href="#id3"><span class="problematic" id="id4">submit_</span></a>…sh</p></li>
-<li><p><strong>fix_datafiles.py</strong>    → patch data file</p></li>
-<li><p><strong>lmp_mpi</strong>             → run simulation</p></li>
+<li><p><strong>LT_writer.py</strong> → monomer LT + XYZ</p></li>
+<li><p><strong>writePackmolInput.py</strong> → Packmol recipe</p></li>
+<li><p><strong>Packmol</strong> → <em>IC_tmp.xyz</em></p></li>
+<li><p><strong>writeSysLT.py</strong> → system LT</p></li>
+<li><p><strong>Moltemplate</strong> → <em>b70_N200_L&lt;L&gt;.data</em></p></li>
+<li><p><strong>updateColVar.py</strong> → <em>N200_Rg_L&lt;L&gt;.colvars</em></p></li>
+<li><p><strong>updateInput.py</strong> → <em>b70_N200_L&lt;L&gt;.in</em> + Slurm script</p></li>
+<li><p><strong>fix_datafiles.py</strong> → patch data file</p></li>
+<li><p><strong>lmp_mpi</strong> → run simulation</p></li>
 </ol>
-</section>
-<section id="detailed-step-by-step">
-<h2>3 Detailed step-by-step<a class="headerlink" href="#detailed-step-by-step" title="Link to this heading"></a></h2>
-<p>### 3.1 <cite>LT_writer.py</cite> — build monomer libraries</p>
+<p class="rubric">Detailed step-by-step</p>
+<p class="rubric">3.1 <code class="docutils literal notranslate"><span class="pre">LT_writer.py</span></code> — build monomer libraries</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>LT_writer.py<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$seg</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p><strong>Creates</strong></p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">polyA_n&lt;n&gt;.lt</span></code>   Moltemplate monomer (types 1 &amp; 2)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">polyB_n&lt;n&gt;.lt</span></code>   Moltemplate monomer (types 3 &amp; 4)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">polyA_n&lt;n&gt;.lt</span></code>         Moltemplate monomer (types 1 &amp; 2)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">polyB_n&lt;n&gt;.lt</span></code>         Moltemplate monomer (types 3 &amp; 4)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">polyA_n&lt;n&gt;_mono.xyz</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">polyB_n&lt;n&gt;_mono.xyz</span></code> (single-monomer XYZ)</p></li>
 </ul>
 <p><strong>Bead taxonomy</strong></p>
 <table class="docutils align-default">
 <thead>
-<tr class="row-odd"><th class="head"><p>Type ID</p></th>
-<th class="head"><p>Role</p></th>
+<tr class="row-odd"><th class="head"><p><strong>ID</strong></p></th>
+<th class="head"><p><strong>Role</strong></p></th>
 </tr>
 </thead>
 <tbody>
@@ -165,77 +156,73 @@ the wrapper, which files it consumes, and which files it writes.</p>
 <td><p>Sticker (A-chain, specific bonding)</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>2</strong></p></td>
-<td><p>Spacer (A-chain, non-specific bonding)</p></td>
+<td><p>Spacer  (A-chain, non-specific bonding)</p></td>
 </tr>
 <tr class="row-even"><td><p><strong>3</strong></p></td>
 <td><p>Sticker (B-chain, specific bonding)</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>4</strong></p></td>
-<td><p>Spacer (B-chain, non-specific bonding)</p></td>
+<td><p>Spacer  (B-chain, non-specific bonding)</p></td>
 </tr>
 </tbody>
 </table>
-<p>—</p>
-<p>### 3.2 <cite>writePackmolInput.py</cite> — Packmol recipe</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>writePackmolInput.py<span class="w">  </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NA</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NB</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$L</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">                              </span>populate_tmp.inp<span class="w">  </span>IC_tmp.xyz
+<p class="rubric">3.2 <code class="docutils literal notranslate"><span class="pre">writePackmolInput.py</span></code> — Packmol recipe</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>writePackmolInput.py<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NA</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NB</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$L</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                             </span>populate_tmp.inp<span class="w"> </span>IC_tmp.xyz
 </pre></div>
 </div>
 <p><em>Creates</em> <code class="file docutils literal notranslate"><span class="pre">populate_tmp.inp</span></code> containing <strong>two</strong> <code class="docutils literal notranslate"><span class="pre">structure</span></code> blocks,
 each requesting <code class="docutils literal notranslate"><span class="pre">NA</span></code> or <code class="docutils literal notranslate"><span class="pre">NB</span></code> copies inside the cube
-<span class="math notranslate nohighlight">\([-L,L]^3\)</span> with 10 Å clearance.</p>
-<p>—</p>
-<p>### 3.3 Packmol — coordinate packing</p>
+<span class="math notranslate nohighlight">\([-L, L]^3\)</span> with 10 Å clearance.</p>
+<p class="rubric">3.3 Packmol — coordinate packing</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>packmol<span class="w"> </span>&lt;<span class="w"> </span>populate_tmp.inp<span class="w">      </span><span class="c1"># → IC_tmp.xyz</span>
 </pre></div>
 </div>
 <p>Replicates monomers, randomises orientation, outputs one XYZ:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>14000
 comment line
-2   -185.4  -92.7   305.1
-1   220.03   44.8   161.9
+2  -185.4  -92.7   305.1
+1   220.0   44.8   161.9
 …
 </pre></div>
 </div>
-<p>—</p>
-<p>### 3.4 <cite>writeSysLT.py</cite> — system-level LT</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>writeSysLT.py<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NA</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NB</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$L</span><span class="s2">&quot;</span><span class="w">  </span>b70_N200_L&lt;L&gt;.lt
+<p class="rubric">3.4 <code class="docutils literal notranslate"><span class="pre">writeSysLT.py</span></code> — system-level LT</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>writeSysLT.py<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NA</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NB</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$L</span><span class="s2">&quot;</span><span class="w"> </span>b70_N200_L&lt;L&gt;.lt
 </pre></div>
 </div>
-<p>Imports the monomer LTs, instantiates <em>NA + NB</em> polymers, defines backbone
-bond/angle types, and writes a <em>Data Boundary</em> block ±(L + 20) Å.</p>
-<p>—</p>
-<p>### 3.5 Moltemplate — LT + XYZ → LAMMPS Data</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>moltemplate.sh<span class="w"> </span>-xyz<span class="w"> </span>IC_tmp.xyz<span class="w">  </span>b70_N200_L&lt;L&gt;.lt<span class="w">  </span>-nocheck
+<p>Imports the monomer LTs, instantiates <em>NA + NB</em> polymers, defines
+back-bone bond/angle types, and writes a <em>Data Boundary</em> block
+± (L + 20) Å.</p>
+<p class="rubric">3.5 Moltemplate — LT + XYZ → LAMMPS Data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>moltemplate.sh<span class="w"> </span>-xyz<span class="w"> </span>IC_tmp.xyz<span class="w"> </span>b70_N200_L&lt;L&gt;.lt<span class="w"> </span>-nocheck
 </pre></div>
 </div>
-<p><strong>Inputs</strong></p>
+<p><em>Inputs</em></p>
 <ul class="simple">
 <li><p>packed coordinates <code class="file docutils literal notranslate"><span class="pre">IC_tmp.xyz</span></code></p></li>
 <li><p>hierarchy <code class="file docutils literal notranslate"><span class="pre">b70_N200_L&lt;L&gt;.lt</span></code></p></li>
 </ul>
-<p><strong>Outputs</strong></p>
+<p><em>Outputs</em></p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">b70_N200_L&lt;L&gt;.data</span></code> – canonical LAMMPS <em>Data</em> file</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">system.in.settings</span></code> – auxiliary pair/bond/angle styles</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">*.lt.tmp</span></code> – intermediate JSON (can be deleted)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">b70_N200_L&lt;L&gt;.data</span></code> — canonical LAMMPS <em>Data</em> file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">system.in.settings</span></code> — auxiliary pair/bond/angle styles</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">*.lt.tmp</span></code> — intermediate JSON (can be deleted)</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">-nocheck</span></code> skips Moltemplate’s expensive overlap checker – we trust Packmol.</p>
-<p>—</p>
-<p>### 3.6 <cite>updateColVar.py</cite> — patch the colvars template</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>updateColVar.py<span class="w">  </span>IC_tmp.xyz<span class="w">  </span>N400_Rg_L700.colvars<span class="w"> </span><span class="se">\</span>
-<span class="w">                         </span><span class="s2">&quot;</span><span class="nv">$L</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NA</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NB</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$seg</span><span class="s2">&quot;</span>
+<p>The <code class="docutils literal notranslate"><span class="pre">-nocheck</span></code> flag skips Moltemplate’s expensive overlap checker—we
+trust Packmol.</p>
+<p class="rubric">3.6 <code class="docutils literal notranslate"><span class="pre">updateColVar.py</span></code> — patch the colvars template</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>updateColVar.py<span class="w"> </span>IC_tmp.xyz<span class="w"> </span>N400_Rg_L700.colvars<span class="w"> </span><span class="se">\</span>
+<span class="w">                        </span><span class="s2">&quot;</span><span class="nv">$L</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NA</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NB</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$seg</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Computes <strong>radius of gyration</strong> from <em>all</em> beads</p></li>
-<li><p>Sets <code class="docutils literal notranslate"><span class="pre">upperBoundary</span> <span class="pre">=</span> <span class="pre">Rg</span> <span class="pre">+</span> <span class="pre">10</span></code> and <code class="docutils literal notranslate"><span class="pre">upperWalls</span> <span class="pre">=</span> <span class="pre">Rg</span> <span class="pre">+</span> <span class="pre">5</span></code></p></li>
-<li><p>Generates an <code class="docutils literal notranslate"><span class="pre">atomNumbers</span></code> list selecting <strong>half-chains</strong></p></li>
-<li><p>Writes <code class="file docutils literal notranslate"><span class="pre">N200_Rg_L&lt;L&gt;.colvars</span></code></p></li>
+<li><p>Computes <strong>radius of gyration</strong> from <em>all</em> beads.</p></li>
+<li><p>Sets <code class="docutils literal notranslate"><span class="pre">upperBoundary</span> <span class="pre">=</span> <span class="pre">Rg</span> <span class="pre">+</span> <span class="pre">10</span></code> and <code class="docutils literal notranslate"><span class="pre">upperWalls</span> <span class="pre">=</span> <span class="pre">Rg</span> <span class="pre">+</span> <span class="pre">5</span></code>.</p></li>
+<li><p>Generates an <code class="docutils literal notranslate"><span class="pre">atomNumbers</span></code> list selecting <strong>half-chains</strong>.</p></li>
+<li><p>Writes <code class="file docutils literal notranslate"><span class="pre">N200_Rg_L&lt;L&gt;.colvars</span></code>.</p></li>
 </ul>
-<p>—</p>
-<p>### 3.7 <cite>updateInput.py</cite> — final <em>.in</em> &amp; Slurm launcher</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>updateInput.py<span class="w">  </span>Template_input.in<span class="w">  </span><span class="s2">&quot;</span><span class="nv">$L</span><span class="s2">&quot;</span>
+<p class="rubric">3.7 <code class="docutils literal notranslate"><span class="pre">updateInput.py</span></code> — final <em>.in</em> &amp; Slurm launcher</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>updateInput.py<span class="w"> </span>Template_input.in<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$L</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p>Performs three substitutions in the template:</p>
@@ -246,27 +233,24 @@ bond/angle types, and writes a <em>Data Boundary</em> block ±(L + 20) Å.</p>
 </ol>
 <p><em>Creates</em></p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">b70_N200_L&lt;L&gt;.in</span></code> – production input</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">submit_b70_N200_L&lt;L&gt;.sh</span></code> – batch script (28 MPI, 3 days)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">b70_N200_L&lt;L&gt;.in</span></code> — production input</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">submit_b70_N200_L&lt;L&gt;.sh</span></code> — batch script (28 MPI, 3 days)</p></li>
 </ul>
-<p>—</p>
-<p>### 3.8 <cite>fix_datafiles.py</cite> — enable dynamic bonds</p>
+<p class="rubric">3.8 <code class="docutils literal notranslate"><span class="pre">fix_datafiles.py</span></code> — enable dynamic bonds</p>
 <ul class="simple">
-<li><p>Search–replace “<code class="docutils literal notranslate"><span class="pre">2</span>&#160; <span class="pre">bond</span> <span class="pre">types</span></code>” → “<code class="docutils literal notranslate"><span class="pre">3</span>&#160; <span class="pre">bond</span> <span class="pre">types</span></code>”</p></li>
-<li><p>Append “<code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">extra</span> <span class="pre">bond</span> <span class="pre">per</span> <span class="pre">atom</span></code>”</p></li>
+<li><p>Search-replace <code class="docutils literal notranslate"><span class="pre">2</span>&#160; <span class="pre">bond</span> <span class="pre">types</span></code> → <code class="docutils literal notranslate"><span class="pre">3</span>&#160; <span class="pre">bond</span> <span class="pre">types</span></code></p></li>
+<li><p>Append <code class="docutils literal notranslate"><span class="pre">50</span> <span class="pre">extra</span> <span class="pre">bond</span> <span class="pre">per</span> <span class="pre">atom</span></code></p></li>
 </ul>
-<p>Required for LAMMPS’s <strong>`fix bond/create/random`</strong> (EXTRA-BOND package)
-which forms single-valency sticker–sticker bonds (<strong>bond type 3</strong>).</p>
-<p>—</p>
-<p>### 3.9 Run LAMMPS</p>
+<p>Required for LAMMPS’s <code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">bond/create/random</span></code> (<strong>EXTRA-BOND</strong>
+package), which forms single-valency sticker–sticker bonds
+(<strong>bond type 3</strong>).</p>
+<p class="rubric">3.9 Run LAMMPS</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lmp_mpi<span class="w"> </span>-in<span class="w"> </span>b70_N200_L&lt;L&gt;.in
 <span class="c1"># or</span>
 sbatch<span class="w"> </span>submit_b70_N200_L&lt;L&gt;.sh
 </pre></div>
 </div>
-</section>
-<section id="file-cheat-sheet">
-<h2>4 File cheat-sheet<a class="headerlink" href="#file-cheat-sheet" title="Link to this heading"></a></h2>
+<p class="rubric">File cheat-sheet</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 41.2%" />
@@ -274,51 +258,50 @@ sbatch<span class="w"> </span>submit_b70_N200_L&lt;L&gt;.sh
 <col style="width: 35.3%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>File</p></th>
-<th class="head"><p>Created by</p></th>
-<th class="head"><p>Consumed by</p></th>
+<tr class="row-odd"><th class="head"><p><strong>File</strong></p></th>
+<th class="head"><p><strong>Created by</strong></p></th>
+<th class="head"><p><strong>Consumed by</strong></p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">polyA_n&lt;n&gt;.lt</span></code> / <code class="docutils literal notranslate"><span class="pre">polyB_n&lt;n&gt;.lt</span></code></p></td>
-<td><p>LT_writer.py</p></td>
-<td><p>writeSysLT.py</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LT_writer.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">writeSysLT.py</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">polyA_n&lt;n&gt;_mono.xyz</span></code> / <code class="docutils literal notranslate"><span class="pre">polyB_n&lt;n&gt;_mono.xyz</span></code></p></td>
-<td><p>LT_writer.py</p></td>
-<td><p>writePackmolInput.py</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LT_writer.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">writePackmolInput.py</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">populate_tmp.inp</span></code></p></td>
-<td><p>writePackmolInput.py</p></td>
-<td><p>Packmol</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">writePackmolInput.py</span></code></p></td>
+<td><p><em>Packmol</em></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">IC_tmp.xyz</span></code></p></td>
-<td><p>Packmol</p></td>
-<td><p>writeSysLT.py, updateColVar.py</p></td>
+<td><p><em>Packmol</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">writeSysLT.py</span></code>, <code class="docutils literal notranslate"><span class="pre">updateColVar.py</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">b70_N200_L&lt;L&gt;.lt</span></code></p></td>
-<td><p>writeSysLT.py</p></td>
-<td><p>Moltemplate</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">writeSysLT.py</span></code></p></td>
+<td><p><em>Moltemplate</em></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">b70_N200_L&lt;L&gt;.data</span></code></p></td>
-<td><p>Moltemplate</p></td>
-<td><p>fix_datafiles.py, updateInput.py</p></td>
+<td><p><em>Moltemplate</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fix_datafiles.py</span></code>, <code class="docutils literal notranslate"><span class="pre">updateInput.py</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">N200_Rg_L&lt;L&gt;.colvars</span></code></p></td>
-<td><p>updateColVar.py</p></td>
-<td><p>updateInput.py</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">updateColVar.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">updateInput.py</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">b70_N200_L&lt;L&gt;.in</span></code></p></td>
-<td><p>updateInput.py</p></td>
-<td><p>LAMMPS</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">updateInput.py</span></code></p></td>
+<td><p><em>LAMMPS</em></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">submit_b70_N200_L&lt;L&gt;.sh</span></code></p></td>
-<td><p>updateInput.py</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">updateInput.py</span></code></p></td>
 <td><p>HPC scheduler</p></td>
 </tr>
 </tbody>
 </table>
-</section>
 </section>
 
 
