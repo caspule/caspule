@@ -51,11 +51,14 @@
 <li class="toctree-l1"><a class="reference internal" href="simulation_output.html">Simulation Output</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Data-Analysis Helpers</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#potential-energy-trace">Potential-Energy Trace</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bonded-sticker-fraction-bsf">Bonded-Sticker Fraction (BSF)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bonded-sticker-fraction-bsf-time-series">Bonded-Sticker Fraction (BSF) – time series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cluster-size-vs-bound-sticker-fraction-scatter">Cluster Size vs Bound-Sticker Fraction (scatter)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sticker-dissociation-events">Sticker Dissociation Events</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#cluster-size-distribution">Cluster-Size Distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#radial-sticker-spacer-density">Radial Sticker / Spacer Density</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#volume-normalised-bsf-coming-soon">Volume-Normalised BSF <em>(coming soon)</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chain-neighbour-histogram">Chain-Neighbour Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sticker-bond-multiplicity-per-chain-pair">Sticker-Bond Multiplicity per Chain Pair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inter-molecular-sticker-sticker-distances">Inter-molecular Sticker-Sticker Distances</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
@@ -107,7 +110,7 @@ flags (e.g. custom column numbers, unit conversions).</p></li>
 <h2>Potential-Energy Trace<a class="headerlink" href="#potential-energy-trace" title="Link to this heading"></a></h2>
 <p><strong>Script</strong> <code class="docutils literal notranslate"><span class="pre">plot_PE.py</span></code>
 <strong>Input</strong>  <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;run&gt;.dat</span></code> (LAMMPS thermo dump)
-<strong>Action</strong> Extracts the <em>potential energy</em> column and plots energy vs step
+<strong>Action</strong> Extracts the <em>potential-energy</em> column and plots energy vs step
 (line plot saved as <code class="docutils literal notranslate"><span class="pre">PE.png</span></code>).</p>
 <figure class="align-center" id="id1">
 <a class="reference internal image-reference" href="../_images/PE.png"><img alt="../_images/PE.png" src="../_images/PE.png" style="width: 70%;" />
@@ -118,17 +121,33 @@ flags (e.g. custom column numbers, unit conversions).</p></li>
 </figure>
 </section>
 <hr class="docutils" />
-<section id="bonded-sticker-fraction-bsf">
-<h2>Bonded-Sticker Fraction (BSF)<a class="headerlink" href="#bonded-sticker-fraction-bsf" title="Link to this heading"></a></h2>
+<section id="bonded-sticker-fraction-bsf-time-series">
+<h2>Bonded-Sticker Fraction (BSF) – time series<a class="headerlink" href="#bonded-sticker-fraction-bsf-time-series" title="Link to this heading"></a></h2>
 <p><strong>Script</strong> <code class="docutils literal notranslate"><span class="pre">plot_BSF.py</span></code>
-<strong>Input</strong>  <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;run&gt;.dat</span></code> (must include running bond count)
-<strong>Action</strong> Computes the instantaneous BSF (fraction of stickers in bonds) and
-outputs a BSF-vs-time curve (<code class="docutils literal notranslate"><span class="pre">BSF.png</span></code>).</p>
+<strong>Input</strong>  <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;run&gt;.dat</span></code> (must include a running <code class="docutils literal notranslate"><span class="pre">bonds</span></code> column)
+<strong>Action</strong> Computes the percentage of <strong>newly formed cross-links</strong> and plots
+<em>% stickers bonded</em> vs simulation step (figure saved as <code class="docutils literal notranslate"><span class="pre">BSF_timeseries.png</span></code>).</p>
 <figure class="align-center" id="id2">
-<a class="reference internal image-reference" href="../_images/BSF.png"><img alt="../_images/BSF.png" src="../_images/BSF.png" style="width: 70%;" />
+<a class="reference internal image-reference" href="../_images/BSF_timeseries.png"><img alt="../_images/BSF_timeseries.png" src="../_images/BSF_timeseries.png" style="width: 70%;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Example BSF profile.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-text">Example BSF time series.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<hr class="docutils" />
+<section id="cluster-size-vs-bound-sticker-fraction-scatter">
+<h2>Cluster Size vs Bound-Sticker Fraction (scatter)<a class="headerlink" href="#cluster-size-vs-bound-sticker-fraction-scatter" title="Link to this heading"></a></h2>
+<p><strong>Script</strong> <code class="docutils literal notranslate"><span class="pre">plot_cSizeBSF.py</span></code>
+<strong>Input</strong>  one LAMMPS <code class="docutils literal notranslate"><span class="pre">*.DATA</span></code> snapshot
+<strong>Action</strong> Detects connected clusters and scatter-plots <strong>cluster size</strong>
+vs <strong>bound-sticker fraction</strong> for every cluster (figure saved as
+<code class="docutils literal notranslate"><span class="pre">cSize_BSF_scatter.png</span></code>).</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/cSize_BSF_scatter.png"><img alt="../_images/cSize_BSF_scatter.png" src="../_images/cSize_BSF_scatter.png" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Cluster size vs BSF.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -140,11 +159,11 @@ outputs a BSF-vs-time curve (<code class="docutils literal notranslate"><span cl
 counters)
 <strong>Action</strong> Converts cumulative counts to <em>per-interval</em> break events and plots
 a line-style time series (<code class="docutils literal notranslate"><span class="pre">SD.png</span></code>).</p>
-<figure class="align-center" id="id3">
+<figure class="align-center" id="id4">
 <a class="reference internal image-reference" href="../_images/SD.png"><img alt="../_images/SD.png" src="../_images/SD.png" style="width: 70%;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Dissociation events per Δt.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+<p><span class="caption-text">Dissociation events per Δt.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -152,15 +171,14 @@ a line-style time series (<code class="docutils literal notranslate"><span class
 <section id="cluster-size-distribution">
 <h2>Cluster-Size Distribution<a class="headerlink" href="#cluster-size-distribution" title="Link to this heading"></a></h2>
 <p><strong>Script</strong> <code class="docutils literal notranslate"><span class="pre">plot_cSize.py</span></code>
-<strong>Input</strong>  one LAMMPS <code class="docutils literal notranslate"><span class="pre">*.DATA</span></code> snapshot
-<strong>Action</strong> Detects connected components (chains = nodes, sticker bonds =
-edges), then plots the fraction of chains in each cluster size <em>s</em>
+<strong>Input</strong>  one <code class="docutils literal notranslate"><span class="pre">*.DATA</span></code> snapshot
+<strong>Action</strong> Plots the fraction of chains in each cluster size <em>s</em>
 (histogram saved as <code class="docutils literal notranslate"><span class="pre">cSize.png</span></code>).</p>
-<figure class="align-center" id="id4">
+<figure class="align-center" id="id5">
 <a class="reference internal image-reference" href="../_images/cSize.png"><img alt="../_images/cSize.png" src="../_images/cSize.png" style="width: 70%;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Cluster-size histogram.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+<p><span class="caption-text">Cluster-size histogram.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -170,26 +188,63 @@ edges), then plots the fraction of chains in each cluster size <em>s</em>
 <p><strong>Script</strong> <code class="docutils literal notranslate"><span class="pre">plot_radialDist.py</span></code>
 <strong>Input</strong>  one <code class="docutils literal notranslate"><span class="pre">*.DATA</span></code> snapshot (types 1/3 = stickers, 2/4 = spacers)
 <strong>Action</strong> Computes volume-normalised radial density profiles for stickers and
-spacers.  Figure saved as
-<code class="docutils literal notranslate"><span class="pre">RD.png</span></code>.</p>
-<figure class="align-center" id="id5">
+spacers (figure saved as <code class="docutils literal notranslate"><span class="pre">RD.png</span></code>).</p>
+<figure class="align-center" id="id6">
 <a class="reference internal image-reference" href="../_images/RD.png"><img alt="../_images/RD.png" src="../_images/RD.png" style="width: 70%;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Sticker vs spacer radial densities.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+<p><span class="caption-text">Sticker vs spacer radial densities.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
 <hr class="docutils" />
-<section id="volume-normalised-bsf-coming-soon">
-<h2>Volume-Normalised BSF <em>(coming soon)</em><a class="headerlink" href="#volume-normalised-bsf-coming-soon" title="Link to this heading"></a></h2>
-<p>A convenience wrapper will shortly appear that rescales BSF by the simulation
-box volume to allow direct comparison between runs of different sizes.</p>
-<figure class="align-center" id="id6">
-<a class="reference internal image-reference" href="_static/img/vbsf_placeholder.png"><img alt="_static/img/vbsf_placeholder.png" src="_static/img/vbsf_placeholder.png" style="width: 70%;" />
+<section id="chain-neighbour-histogram">
+<h2>Chain-Neighbour Histogram<a class="headerlink" href="#chain-neighbour-histogram" title="Link to this heading"></a></h2>
+<p><strong>Script</strong> <code class="docutils literal notranslate"><span class="pre">plot_neighCount.py</span></code>
+<strong>Input</strong>  one <code class="docutils literal notranslate"><span class="pre">*.DATA</span></code> snapshot
+<strong>Action</strong> Builds a graph whose nodes are chains and whose edges are sticker
+bonds between <em>different</em> chains; bar-plots the <strong>degree distribution</strong>
+(histogram saved as <code class="docutils literal notranslate"><span class="pre">neigh_hist.png</span></code>).</p>
+<figure class="align-center" id="id7">
+<a class="reference internal image-reference" href="../_images/neigh_hist.png"><img alt="../_images/neigh_hist.png" src="../_images/neigh_hist.png" style="width: 70%;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Placeholder – volume-normalised BSF.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+<p><span class="caption-text">Chain-neighbour histogram.</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<hr class="docutils" />
+<section id="sticker-bond-multiplicity-per-chain-pair">
+<h2>Sticker-Bond Multiplicity per Chain Pair<a class="headerlink" href="#sticker-bond-multiplicity-per-chain-pair" title="Link to this heading"></a></h2>
+<p><strong>Script</strong> <code class="docutils literal notranslate"><span class="pre">plot_pair_bonds.py</span></code>
+<strong>Input</strong>  one <code class="docutils literal notranslate"><span class="pre">*.DATA</span></code> snapshot
+<strong>Action</strong> Builds a <em>MultiGraph</em> in which nodes are chains and <strong>each
+type-1 ⇄ type-3 sticker bond becomes an edge</strong>.
+For every neighbouring chain pair the helper counts the <em>number of parallel
+edges</em> (i.e. how many sticker bonds connect that pair) and histograms those
+counts (figure saved as <code class="docutils literal notranslate"><span class="pre">pair_bonds_hist.png</span></code>).</p>
+<figure class="align-center" id="id8">
+<a class="reference internal image-reference" href="../_images/pair_bonds_hist.png"><img alt="../_images/pair_bonds_hist.png" src="../_images/pair_bonds_hist.png" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Example histogram of sticker-bond multiplicities.</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<hr class="docutils" />
+<section id="inter-molecular-sticker-sticker-distances">
+<h2>Inter-molecular Sticker-Sticker Distances<a class="headerlink" href="#inter-molecular-sticker-sticker-distances" title="Link to this heading"></a></h2>
+<p><strong>Script</strong> <code class="docutils literal notranslate"><span class="pre">plot_sticker_dist.py</span></code>
+<strong>Input</strong>  one or more <code class="docutils literal notranslate"><span class="pre">*.DATA</span></code> snapshots
+<strong>Action</strong> For every file, measures all pair-wise distances between <strong>type-1</strong>
+and <strong>type-3</strong> atoms residing on <em>different</em> molecules; overlays raw-count
+histograms (<code class="docutils literal notranslate"><span class="pre">sticker_dist.png</span></code>). <code class="docutils literal notranslate"><span class="pre">bins_w</span></code> and <code class="docutils literal notranslate"><span class="pre">max_r</span></code> can be tuned via
+flags.</p>
+<figure class="align-center" id="id9">
+<a class="reference internal image-reference" href="../_images/sticker_dist.png"><img alt="../_images/sticker_dist.png" src="../_images/sticker_dist.png" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Sticker-sticker distance distributions.</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>

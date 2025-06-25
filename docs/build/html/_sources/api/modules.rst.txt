@@ -122,3 +122,39 @@ plot_radialDist
    :private-members:
    :undoc-members:
    :show-inheritance:
+
+plot_pair_bonds
+~~~~~~~~~~~~~~~~~
+
+.. automodule:: analysis.plot_pair_bonds
+   :members:
+   :private-members:
+   :undoc-members:
+   :show-inheritance:
+
+plot_cSizeBSF
+~~~~~~~~~~~~~
+
+.. automodule:: analysis.plot_cSizeBSF
+   :members:
+   :private-members:
+   :undoc-members:
+   :show-inheritance:
+
+plot_sticker_dist
+~~~~~~~~~~~~~~~~~
+
+.. automodule:: analysis.plot_sticker_dist
+   :members:
+   :private-members:
+   :undoc-members:
+   :show-inheritance:
+
+plot_neighCount
+~~~~~~~~~~~~~~~
+
+.. automodule:: analysis.plot_neighCount
+   :members:
+   :private-members:
+   :undoc-members:
+   :show-inheritance:
