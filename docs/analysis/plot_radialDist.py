@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """
-plot_radialDist
-===============
-
 Volume-normalised **radial density** of stickers (types 1 & 3) and spacers
 (types 2 & 4) from a single LAMMPS ``*.DATA`` snapshot.
 

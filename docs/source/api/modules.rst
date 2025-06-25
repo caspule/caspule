@@ -15,33 +15,62 @@ inside the :pymod:`analysis` package.
 Core pipeline utilities
 -----------------------
 
+fix_datafiles                     
+~~~~~~~~~~~~~
+
 .. automodule:: fix_datafiles
    :members:
+   :private-members:
    :undoc-members:
    :show-inheritance:
+
+
+LT_writer
+~~~~~~~~~
 
 .. automodule:: LT_writer
    :members:
+   :private-members:
    :undoc-members:
    :show-inheritance:
+
+
+writePackmolInput
+~~~~~~~~~~~~~~~~~
 
 .. automodule:: writePackmolInput
    :members:
+   :private-members:
    :undoc-members:
    :show-inheritance:
+
+
+writeSysLT
+~~~~~~~~~~
 
 .. automodule:: writeSysLT
    :members:
+   :private-members:
    :undoc-members:
    :show-inheritance:
+
+
+updateColVar
+~~~~~~~~~~~~
 
 .. automodule:: updateColVar
    :members:
+   :private-members:
    :undoc-members:
    :show-inheritance:
 
+
+updateInput
+~~~~~~~~~~~
+
 .. automodule:: updateInput
    :members:
+   :private-members:
    :undoc-members:
    :show-inheritance:
 
@@ -49,11 +78,17 @@ Core pipeline utilities
 Analysis helpers
 ----------------
 
+plot_PE
+~~~~~~~
+
 .. automodule:: analysis.plot_PE
    :members:
-   :private-members:           # ← include load_thermo(), steps_to_us(), …
+   :private-members:
    :undoc-members:
    :show-inheritance:
+
+plot_BSF
+~~~~~~~~
 
 .. automodule:: analysis.plot_BSF
    :members:
@@ -61,17 +96,26 @@ Analysis helpers
    :undoc-members:
    :show-inheritance:
 
+plot_SD
+~~~~~~~
+
 .. automodule:: analysis.plot_SD
    :members:
    :private-members:
    :undoc-members:
    :show-inheritance:
 
+plot_cSize
+~~~~~~~~~~
+
 .. automodule:: analysis.plot_cSize
    :members:
    :private-members:
    :undoc-members:
    :show-inheritance:
+
+plot_radialDist
+~~~~~~~~~~~~~~~
 
 .. automodule:: analysis.plot_radialDist
    :members:

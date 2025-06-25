@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """
-plot_cSize
-==========
-
 Compute a *cluster-size distribution* (in **molecules**) from **one**
 LAMMPS ``*.DATA`` snapshot and display it as a bar chart.
 

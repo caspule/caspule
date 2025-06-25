@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """
-plot_PE
-=======
-
 Quick helper to visualise *potential energy* vs *simulation time* for **one**
 LAMMPS ``Thermo_<foo>.dat`` file.
 

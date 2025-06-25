@@ -30,6 +30,8 @@ extensions = [
     "sphinx.ext.viewcode",        # (optional)
 ]
 
+autosummary_generate = True
+
 myst_enable_extensions = [
     "colon_fence",  # lets you use ::: fenced code blocks
 ]

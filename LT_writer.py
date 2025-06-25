@@ -1,6 +1,4 @@
 """
-LT_writer.py
-
 Generate Moltemplate (.lt) files and corresponding monomer XYZ files for
 polymer chains based on a specified segment pattern.
 

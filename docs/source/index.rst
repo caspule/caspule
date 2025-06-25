@@ -58,7 +58,7 @@ Documentation Sections
    :maxdepth: 2
    :caption: Contents:
 
-   installation
+   usage/installation
    usage/pipeline
    usage/example_system_setup
    usage/simulation_output

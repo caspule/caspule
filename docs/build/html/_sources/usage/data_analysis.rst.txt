@@ -3,7 +3,7 @@ Data-Analysis Helpers
 
 .. note::
 
-   These lightweight scripts live in ``docs/_static/scripts`` and are meant
+   These lightweight scripts live in ``/analysis`` and are meant
    for **quick, single-file previews** of key observables.
 
    • **Exactly one input file** is supplied as the *first* positional argument.  

@@ -1,6 +1,4 @@
 """
-updateColVar.py
-
 Compute the radius of gyration (Rg) from a Packmol-generated XYZ file,
 and update a colvars template file accordingly. The script reads:
 1. xyz_file       : Packmol output XYZ (e.g., "IC_tmp.xyz")

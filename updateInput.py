@@ -1,6 +1,4 @@
 """
-updateInput.py
-
 Modify a LAMMPS input template file to set correct filenames and colvars references,
 and then generate a SLURM submission script.
 

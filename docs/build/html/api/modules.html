@@ -44,41 +44,74 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage/pipeline.html">Pipeline Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage/example_system_setup.html">Example System Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage/simulation_output.html">Simulation Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage/data_analysis.html">Data-Analysis Helpers</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-fix_datafiles">Core pipeline utilities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#fix_datafiles.fix_data_file"><code class="docutils literal notranslate"><span class="pre">fix_data_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#LT_writer.write_poly_lt"><code class="docutils literal notranslate"><span class="pre">write_poly_lt()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#LT_writer.write_xyz"><code class="docutils literal notranslate"><span class="pre">write_xyz()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#writePackmolInput.generate_packmol_input"><code class="docutils literal notranslate"><span class="pre">generate_packmol_input()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#writeSysLT.generate_syslt"><code class="docutils literal notranslate"><span class="pre">generate_syslt()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#updateColVar.calc_RadGy"><code class="docutils literal notranslate"><span class="pre">calc_RadGy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#updateColVar.fixAtomNumbers"><code class="docutils literal notranslate"><span class="pre">fixAtomNumbers()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#updateColVar.getBoxDim"><code class="docutils literal notranslate"><span class="pre">getBoxDim()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#updateColVar.parseXYZfile"><code class="docutils literal notranslate"><span class="pre">parseXYZfile()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#updateColVar.updateCV"><code class="docutils literal notranslate"><span class="pre">updateCV()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#updateInput.writeInputFile"><code class="docutils literal notranslate"><span class="pre">writeInputFile()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#updateInput.writeSubmitScript"><code class="docutils literal notranslate"><span class="pre">writeSubmitScript()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-pipeline-utilities">Core pipeline utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-fix_datafiles">fix_datafiles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fix_datafiles.fix_data_file"><code class="docutils literal notranslate"><span class="pre">fix_data_file()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-analysis.plot_PE">Analysis helpers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#plot-pe">plot_PE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analysis.plot_PE.plot_pe"><code class="docutils literal notranslate"><span class="pre">plot_pe()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#plot-bsf">plot_BSF</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analysis.plot_BSF.plot_bsf"><code class="docutils literal notranslate"><span class="pre">plot_bsf()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#plot-sd">plot_SD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analysis.plot_SD.plot_sd"><code class="docutils literal notranslate"><span class="pre">plot_sd()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#plot-csize">plot_cSize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analysis.plot_cSize._read_snapshot"><code class="docutils literal notranslate"><span class="pre">_read_snapshot()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analysis.plot_cSize.plot_csize"><code class="docutils literal notranslate"><span class="pre">plot_csize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#plot-radialdist">plot_radialDist</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analysis.plot_radialDist._geometry"><code class="docutils literal notranslate"><span class="pre">_geometry()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analysis.plot_radialDist._load_atoms"><code class="docutils literal notranslate"><span class="pre">_load_atoms()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analysis.plot_radialDist.plot_radial_distribution"><code class="docutils literal notranslate"><span class="pre">plot_radial_distribution()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-LT_writer">LT_writer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#LT_writer.write_poly_lt"><code class="docutils literal notranslate"><span class="pre">write_poly_lt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#LT_writer.write_xyz"><code class="docutils literal notranslate"><span class="pre">write_xyz()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-writePackmolInput">writePackmolInput</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#writePackmolInput.generate_packmol_input"><code class="docutils literal notranslate"><span class="pre">generate_packmol_input()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-writeSysLT">writeSysLT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#writeSysLT.generate_syslt"><code class="docutils literal notranslate"><span class="pre">generate_syslt()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-updateColVar">updateColVar</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#updateColVar.calc_RadGy"><code class="docutils literal notranslate"><span class="pre">calc_RadGy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updateColVar.fixAtomNumbers"><code class="docutils literal notranslate"><span class="pre">fixAtomNumbers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updateColVar.getBoxDim"><code class="docutils literal notranslate"><span class="pre">getBoxDim()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updateColVar.parseXYZfile"><code class="docutils literal notranslate"><span class="pre">parseXYZfile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updateColVar.updateCV"><code class="docutils literal notranslate"><span class="pre">updateCV()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-updateInput">updateInput</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#updateInput.writeInputFile"><code class="docutils literal notranslate"><span class="pre">writeInputFile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updateInput.writeSubmitScript"><code class="docutils literal notranslate"><span class="pre">writeSubmitScript()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#analysis-helpers">Analysis helpers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.plot_PE">plot_PE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">plot_PE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis.plot_PE.plot_pe"><code class="docutils literal notranslate"><span class="pre">plot_pe()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.plot_BSF">plot_BSF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">plot_BSF</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis.plot_BSF.plot_bsf"><code class="docutils literal notranslate"><span class="pre">plot_bsf()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.plot_SD">plot_SD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">plot_SD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis.plot_SD.plot_sd"><code class="docutils literal notranslate"><span class="pre">plot_sd()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.plot_cSize">plot_cSize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">plot_cSize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis.plot_cSize._read_snapshot"><code class="docutils literal notranslate"><span class="pre">_read_snapshot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis.plot_cSize.plot_csize"><code class="docutils literal notranslate"><span class="pre">plot_csize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.plot_radialDist">plot_radialDist</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">plot_radialDist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis.plot_radialDist._geometry"><code class="docutils literal notranslate"><span class="pre">_geometry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis.plot_radialDist._load_atoms"><code class="docutils literal notranslate"><span class="pre">_load_atoms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis.plot_radialDist.plot_radial_distribution"><code class="docutils literal notranslate"><span class="pre">plot_radial_distribution()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -116,13 +149,14 @@ ships with <strong>generate_InitCond</strong>, including the lightweight helpers
 inside the <a href="#id2"><span class="problematic" id="id3">:pymod:`analysis`</span></a> package.</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#module-fix_datafiles" id="id4">Core pipeline utilities</a></p></li>
-<li><p><a class="reference internal" href="#module-analysis.plot_PE" id="id5">Analysis helpers</a></p></li>
+<li><p><a class="reference internal" href="#core-pipeline-utilities" id="id9">Core pipeline utilities</a></p></li>
+<li><p><a class="reference internal" href="#analysis-helpers" id="id10">Analysis helpers</a></p></li>
 </ul>
 </nav>
+<section id="core-pipeline-utilities">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Core pipeline utilities</a><a class="headerlink" href="#core-pipeline-utilities" title="Link to this heading"></a></h2>
 <section id="module-fix_datafiles">
-<span id="core-pipeline-utilities"></span><h2><a class="toc-backref" href="#id4" role="doc-backlink">Core pipeline utilities</a><a class="headerlink" href="#module-fix_datafiles" title="Link to this heading"></a></h2>
-<p>fix_datafiles.py</p>
+<span id="fix-datafiles"></span><h3>fix_datafiles<a class="headerlink" href="#module-fix_datafiles" title="Link to this heading"></a></h3>
 <p>This module provides functionality to post-process a LAMMPS data file generated by Moltemplate.
 Specifically, it finds the line indicating the number of bond types, changes it from ‘2’ to ‘3’,
 and inserts a new line specifying extra bonds per atom.</p>
@@ -149,7 +183,9 @@ immediately after. All other lines are left unchanged.</p>
 </dl>
 </dd></dl>
 
-<p id="module-LT_writer">LT_writer.py</p>
+</section>
+<section id="module-LT_writer">
+<span id="lt-writer"></span><h3>LT_writer<a class="headerlink" href="#module-LT_writer" title="Link to this heading"></a></h3>
 <p>Generate Moltemplate (.lt) files and corresponding monomer XYZ files for
 polymer chains based on a specified segment pattern.</p>
 <dl class="simple">
@@ -216,20 +252,28 @@ one bead every 5 Å, all with y=z=0.</p>
 </dl>
 </dd></dl>
 
-<dl class="py function" id="module-writePackmolInput">
+</section>
+<section id="module-writePackmolInput">
+<span id="writepackmolinput"></span><h3>writePackmolInput<a class="headerlink" href="#module-writePackmolInput" title="Link to this heading"></a></h3>
+<dl class="py function">
 <dt class="sig sig-object py" id="writePackmolInput.generate_packmol_input">
 <span class="sig-prename descclassname"><span class="pre">writePackmolInput.</span></span><span class="sig-name descname"><span class="pre">generate_packmol_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inp_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/writePackmolInput.html#generate_packmol_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#writePackmolInput.generate_packmol_input" title="Link to this definition"></a></dt>
 <dd><p>Generate a Packmol input script that places NA A-chains and NB B-chains in a cube of half-length L.</p>
 </dd></dl>
 
-<dl class="py function" id="module-writeSysLT">
+</section>
+<section id="module-writeSysLT">
+<span id="writesyslt"></span><h3>writeSysLT<a class="headerlink" href="#module-writeSysLT" title="Link to this heading"></a></h3>
+<dl class="py function">
 <dt class="sig sig-object py" id="writeSysLT.generate_syslt">
 <span class="sig-prename descclassname"><span class="pre">writeSysLT.</span></span><span class="sig-name descname"><span class="pre">generate_syslt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/writeSysLT.html#generate_syslt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#writeSysLT.generate_syslt" title="Link to this definition"></a></dt>
 <dd><p>Create a Moltemplate .lt file that imports polyA_n&lt;n&gt;.lt and polyB_n&lt;n&gt;.lt,
 defines NA and NB copies, and writes the Data Boundary block.</p>
 </dd></dl>
 
-<p id="module-updateColVar">updateColVar.py</p>
+</section>
+<section id="module-updateColVar">
+<span id="updatecolvar"></span><h3>updateColVar<a class="headerlink" href="#module-updateColVar" title="Link to this heading"></a></h3>
 <p>Compute the radius of gyration (Rg) from a Packmol-generated XYZ file,
 and update a colvars template file accordingly. The script reads:
 1. xyz_file       : Packmol output XYZ (e.g., “IC_tmp.xyz”)
@@ -346,7 +390,9 @@ and update a colvars template file accordingly. The script reads:
 </dl>
 </dd></dl>
 
-<p id="module-updateInput">updateInput.py</p>
+</section>
+<section id="module-updateInput">
+<span id="updateinput"></span><h3>updateInput<a class="headerlink" href="#module-updateInput" title="Link to this heading"></a></h3>
 <p>Modify a LAMMPS input template file to set correct filenames and colvars references,
 and then generate a SLURM submission script.</p>
 <dl class="simple">
@@ -416,10 +462,13 @@ the value with “b70_N200_L&lt;L&gt;”.</p></li>
 </dd></dl>
 
 </section>
+</section>
+<section id="analysis-helpers">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Analysis helpers</a><a class="headerlink" href="#analysis-helpers" title="Link to this heading"></a></h2>
 <section id="module-analysis.plot_PE">
-<span id="analysis-helpers"></span><h2><a class="toc-backref" href="#id5" role="doc-backlink">Analysis helpers</a><a class="headerlink" href="#module-analysis.plot_PE" title="Link to this heading"></a></h2>
-<section id="plot-pe">
-<h3>plot_PE<a class="headerlink" href="#plot-pe" title="Link to this heading"></a></h3>
+<span id="plot-pe"></span><h3>plot_PE<a class="headerlink" href="#module-analysis.plot_PE" title="Link to this heading"></a></h3>
+<section id="id4">
+<h4>plot_PE<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
 <p>Small helper to plot <strong>potential energy vs. simulation step</strong> from a single
 LAMMPS <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;foo&gt;.dat</span></code> file.</p>
 <p class="rubric">Typical usage</p>
@@ -450,8 +499,11 @@ in the <em>API Reference</em>.</p>
 </dl>
 </dd></dl>
 
-<section id="plot-bsf">
-<span id="module-analysis.plot_BSF"></span><h3>plot_BSF<a class="headerlink" href="#plot-bsf" title="Link to this heading"></a></h3>
+</section>
+<section id="module-analysis.plot_BSF">
+<span id="plot-bsf"></span><h3>plot_BSF<a class="headerlink" href="#module-analysis.plot_BSF" title="Link to this heading"></a></h3>
+<section id="id5">
+<h4>plot_BSF<a class="headerlink" href="#id5" title="Link to this heading"></a></h4>
 <p>Plot the <em>Bonded-Sticker Fraction</em> (BSF) – i.e. the percentage of <strong>newly
 formed cross-links</strong> – from a single thermo file that contains a running
 <code class="docutils literal notranslate"><span class="pre">bonds</span></code> column.</p>
@@ -489,8 +541,11 @@ autodoc.</p>
 <p>where <code class="docutils literal notranslate"><span class="pre">bonds_i</span></code> is taken from the last column of the thermo line.</p>
 </dd></dl>
 
-<section id="plot-sd">
-<span id="module-analysis.plot_SD"></span><h3>plot_SD<a class="headerlink" href="#plot-sd" title="Link to this heading"></a></h3>
+</section>
+<section id="module-analysis.plot_SD">
+<span id="plot-sd"></span><h3>plot_SD<a class="headerlink" href="#module-analysis.plot_SD" title="Link to this heading"></a></h3>
+<section id="id6">
+<h4>plot_SD<a class="headerlink" href="#id6" title="Link to this heading"></a></h4>
 <p>Sticker <em>Dissociation Events</em> helper.</p>
 <p>Reads a <code class="docutils literal notranslate"><span class="pre">BondData_&lt;foo&gt;.dat</span></code> file that stores <strong>cumulative</strong> formation
 and break counts; this function plots <em>per-interval</em> dissociation events.</p>
@@ -521,8 +576,11 @@ and break counts; this function plots <em>per-interval</em> dissociation events.
 </dl>
 </dd></dl>
 
-<section id="plot-csize">
-<span id="module-analysis.plot_cSize"></span><h3>plot_cSize<a class="headerlink" href="#plot-csize" title="Link to this heading"></a></h3>
+</section>
+<section id="module-analysis.plot_cSize">
+<span id="plot-csize"></span><h3>plot_cSize<a class="headerlink" href="#module-analysis.plot_cSize" title="Link to this heading"></a></h3>
+<section id="id7">
+<h4>plot_cSize<a class="headerlink" href="#id7" title="Link to this heading"></a></h4>
 <p>Compute a <em>cluster-size distribution</em> (in <strong>molecules</strong>) from <strong>one</strong>
 LAMMPS <code class="docutils literal notranslate"><span class="pre">*.DATA</span></code> snapshot and display it as a bar chart.</p>
 <p>For simplicity the connectivity is extracted directly from the “Bonds”
@@ -559,8 +617,11 @@ in the connected component.</p></li>
 </ul>
 </dd></dl>
 
-<section id="plot-radialdist">
-<span id="module-analysis.plot_radialDist"></span><h3>plot_radialDist<a class="headerlink" href="#plot-radialdist" title="Link to this heading"></a></h3>
+</section>
+<section id="module-analysis.plot_radialDist">
+<span id="plot-radialdist"></span><h3>plot_radialDist<a class="headerlink" href="#module-analysis.plot_radialDist" title="Link to this heading"></a></h3>
+<section id="id8">
+<h4>plot_radialDist<a class="headerlink" href="#id8" title="Link to this heading"></a></h4>
 <p>Volume-normalised <strong>radial density</strong> of stickers (types 1 &amp; 3) and spacers
 (types 2 &amp; 4) from a single LAMMPS <code class="docutils literal notranslate"><span class="pre">*.DATA</span></code> snapshot.</p>
 <p>The function</p>
@@ -604,6 +665,7 @@ in the connected component.</p></li>
 </dl>
 </dd></dl>
 
+</section>
 </section>
 </section>
 
