@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """
-plot_SD
-=======
-
 Sticker *Dissociation Events* helper.
 
 Reads a ``BondData_<foo>.dat`` file that stores **cumulative** formation

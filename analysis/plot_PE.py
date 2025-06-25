@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """
-plot_PE
-=======
-
 Small helper to plot **potential energy vs. simulation step** from a single
 LAMMPS ``Thermo_<foo>.dat`` file.
 

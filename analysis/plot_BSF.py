@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """
-plot_BSF
-========
-
 Plot the *Bonded-Sticker Fraction* (BSF) – i.e. the percentage of **newly
 formed cross-links** – from a single thermo file that contains a running
 ``bonds`` column.
