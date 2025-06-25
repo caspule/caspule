@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analysis.plot_cSizeBSF &mdash; generate_InitCond 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/Logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/pipeline.html">Pipeline Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/example_system_setup.html">Example System Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/simulation_output.html">Simulation Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/data_analysis.html">Data-Analysis Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">generate_InitCond</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.plot_cSizeBSF</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analysis.plot_cSizeBSF</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Quick helper to visualise *cluster size* vs *bound-sticker fraction* (BSF)</span>
+<span class="sd">for **one** LAMMPS ``final_state_*.DATA`` snapshot.</span>
+
+<span class="sd">Typical usage</span>
+<span class="sd">-------------</span>
+<span class="sd">&gt;&gt;&gt; from analysis.plot_cSizeBSF import plot_cSizeBSF</span>
+<span class="sd">&gt;&gt;&gt; plot_bsf(&quot;final_state_Run1.DATA&quot;)     # shows the figure</span>
+
+<span class="sd">The helper is intentionally lightweight: no CLI, no batch mode – just one</span>
+<span class="sd">function that returns the Matplotlib ``Axes`` so the caller can style or</span>
+<span class="sd">save the figure as desired.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
+
+
+<span class="c1"># ──────────────────────────────────────────────────────────────────────────</span>
+<span class="c1"># low-level parsers</span>
+<span class="c1"># ──────────────────────────────────────────────────────────────────────────</span>
+<div class="viewcode-block" id="_parse_snapshot">
+<a class="viewcode-back" href="../../api/modules.html#analysis.plot_cSizeBSF._parse_snapshot">[docs]</a>
+<span class="k">def</span> <span class="nf">_parse_snapshot</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a LAMMPS ``*.DATA`` file and extract minimal topology.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    id2mol : dict[int, int]</span>
+<span class="sd">        Atom-ID → molecule-ID.</span>
+<span class="sd">    id2type : dict[int, int]</span>
+<span class="sd">        Atom-ID → atom type.</span>
+<span class="sd">    bonds : list[tuple[int, int]]</span>
+<span class="sd">        List of bonded atom pairs as ID tuples (order doesn’t matter).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">id2mol</span><span class="p">,</span> <span class="n">id2type</span><span class="p">,</span> <span class="n">bonds</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">[]</span>
+    <span class="n">section</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">llow</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">llow</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;atoms&quot;</span><span class="p">):</span>
+                <span class="n">section</span> <span class="o">=</span> <span class="s2">&quot;atoms&quot;</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">llow</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;bonds&quot;</span><span class="p">):</span>
+                <span class="n">section</span> <span class="o">=</span> <span class="s2">&quot;bonds&quot;</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">llow</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;angles&quot;</span><span class="p">,</span> <span class="s2">&quot;velocities&quot;</span><span class="p">,</span> <span class="s2">&quot;masses&quot;</span><span class="p">,</span> <span class="s2">&quot;pair coeffs&quot;</span><span class="p">,</span> <span class="s2">&quot;angle coeffs&quot;</span><span class="p">)):</span>
+                <span class="n">section</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="s2">&quot;atoms&quot;</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                <span class="n">aid</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">atype</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[:</span><span class="mi">3</span><span class="p">])</span>
+                <span class="n">id2mol</span><span class="p">[</span><span class="n">aid</span><span class="p">]</span> <span class="o">=</span> <span class="n">mid</span>
+                <span class="n">id2type</span><span class="p">[</span><span class="n">aid</span><span class="p">]</span> <span class="o">=</span> <span class="n">atype</span>
+
+            <span class="k">elif</span> <span class="n">section</span> <span class="o">==</span> <span class="s2">&quot;bonds&quot;</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                <span class="n">parts</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
+                    <span class="n">bonds</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">3</span><span class="p">])))</span>
+
+    <span class="k">return</span> <span class="n">id2mol</span><span class="p">,</span> <span class="n">id2type</span><span class="p">,</span> <span class="n">bonds</span></div>
+
+
+
+<div class="viewcode-block" id="_clusters_with_bsf">
+<a class="viewcode-back" href="../../api/modules.html#analysis.plot_cSizeBSF._clusters_with_bsf">[docs]</a>
+<span class="k">def</span> <span class="nf">_clusters_with_bsf</span><span class="p">(</span><span class="n">id2mol</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+                       <span class="n">id2type</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+                       <span class="n">bonds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identify clusters and compute their BSF.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[tuple[int, float]]</span>
+<span class="sd">        Each tuple is ``(cluster_size_in_chains, bsf)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">id2mol</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="c1"># union–find over atoms</span>
+    <span class="n">atom_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">id2mol</span><span class="p">)</span>
+    <span class="n">id2idx</span> <span class="o">=</span> <span class="p">{</span><span class="n">aid</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">aid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">atom_ids</span><span class="p">)}</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">atom_ids</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">parent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">i</span><span class="p">:</span>
+            <span class="n">parent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">i</span>
+
+    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ri</span><span class="p">,</span> <span class="n">rj</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">find</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ri</span> <span class="o">!=</span> <span class="n">rj</span><span class="p">:</span>
+            <span class="n">parent</span><span class="p">[</span><span class="n">rj</span><span class="p">]</span> <span class="o">=</span> <span class="n">ri</span>
+
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bonds</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">id2idx</span> <span class="ow">and</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">id2idx</span><span class="p">:</span>
+            <span class="n">union</span><span class="p">(</span><span class="n">id2idx</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">id2idx</span><span class="p">[</span><span class="n">b</span><span class="p">])</span>
+
+    <span class="n">root2atoms</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">aid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">atom_ids</span><span class="p">):</span>
+        <span class="n">root2atoms</span><span class="p">[</span><span class="n">find</span><span class="p">(</span><span class="n">idx</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aid</span><span class="p">)</span>
+
+    <span class="n">bond_set</span> <span class="o">=</span> <span class="p">{</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">pair</span><span class="p">))</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">bonds</span><span class="p">}</span>
+    <span class="n">clusters</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">aids</span> <span class="ow">in</span> <span class="n">root2atoms</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">({</span><span class="n">id2mol</span><span class="p">[</span><span class="n">aid</span><span class="p">]</span> <span class="k">for</span> <span class="n">aid</span> <span class="ow">in</span> <span class="n">aids</span><span class="p">})</span>  <span class="c1"># # of chains in the cluster</span>
+
+        <span class="c1"># sticker types: 1 and 3</span>
+        <span class="n">n1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">id2type</span><span class="p">[</span><span class="n">aid</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">aid</span> <span class="ow">in</span> <span class="n">aids</span><span class="p">)</span>
+        <span class="n">n3</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">id2type</span><span class="p">[</span><span class="n">aid</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">aid</span> <span class="ow">in</span> <span class="n">aids</span><span class="p">)</span>
+        <span class="n">possible</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n3</span><span class="p">)</span>
+        <span class="n">actual</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">possible</span><span class="p">:</span>
+            <span class="n">stickers</span> <span class="o">=</span> <span class="p">[</span><span class="n">aid</span> <span class="k">for</span> <span class="n">aid</span> <span class="ow">in</span> <span class="n">aids</span> <span class="k">if</span> <span class="n">id2type</span><span class="p">[</span><span class="n">aid</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stickers</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">stickers</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]:</span>
+                    <span class="k">if</span> <span class="p">{</span><span class="n">id2type</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">id2type</span><span class="p">[</span><span class="n">b</span><span class="p">]}</span> <span class="o">==</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">}:</span>
+                        <span class="k">if</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)))</span> <span class="ow">in</span> <span class="n">bond_set</span><span class="p">:</span>
+                            <span class="n">actual</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">bsf</span> <span class="o">=</span> <span class="n">actual</span> <span class="o">/</span> <span class="n">possible</span> <span class="k">if</span> <span class="n">possible</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="n">clusters</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">size</span><span class="p">,</span> <span class="n">bsf</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">clusters</span></div>
+
+
+
+<span class="c1"># ──────────────────────────────────────────────────────────────────────────</span>
+<span class="c1"># public helper</span>
+<span class="c1"># ──────────────────────────────────────────────────────────────────────────</span>
+<div class="viewcode-block" id="plot_cSizeBSF">
+<a class="viewcode-back" href="../../api/modules.html#analysis.plot_cSizeBSF.plot_cSizeBSF">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_cSizeBSF</span><span class="p">(</span><span class="n">snapshot_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+             <span class="n">ax</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">colour</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scatter-plot *cluster size* vs *bound-sticker fraction* for one snapshot.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    snapshot_file</span>
+<span class="sd">        Path to a ``final_state_*.DATA`` file.</span>
+<span class="sd">    ax</span>
+<span class="sd">        Existing Matplotlib ``Axes`` to draw on.  If *None* (default) a new</span>
+<span class="sd">        ``Figure`` + ``Axes`` is created.</span>
+<span class="sd">    colour</span>
+<span class="sd">        Matplotlib-compatible colour for the markers.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    matplotlib.axes.Axes</span>
+<span class="sd">        The axis containing the plotted data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">snapshot_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">snapshot_file</span><span class="p">)</span>
+    <span class="n">id2mol</span><span class="p">,</span> <span class="n">id2type</span><span class="p">,</span> <span class="n">bonds</span> <span class="o">=</span> <span class="n">_parse_snapshot</span><span class="p">(</span><span class="n">snapshot_file</span><span class="p">)</span>
+    <span class="n">clusters</span> <span class="o">=</span> <span class="n">_clusters_with_bsf</span><span class="p">(</span><span class="n">id2mol</span><span class="p">,</span> <span class="n">id2type</span><span class="p">,</span> <span class="n">bonds</span><span class="p">)</span>
+
+    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">]</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">xs</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colour</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;no data&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s2">&quot;#f7f7f7&quot;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Cluster size (chains)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bound-sticker fraction (BSF)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">snapshot_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aniruddha Chattaraj, David Kanovich.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

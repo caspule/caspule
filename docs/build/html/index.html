@@ -1,0 +1,213 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to CASPULE’s documentation! &mdash; generate_InitCond 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="usage/installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#">
+            
+              <img src="_static/Logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/pipeline.html">Pipeline Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/example_system_setup.html">Example System Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/simulation_output.html">Simulation Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/data_analysis.html">Data-Analysis Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">generate_InitCond</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to CASPULE’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-caspules-documentation">
+<h1>Welcome to CASPULE’s documentation!<a class="headerlink" href="#welcome-to-caspules-documentation" title="Link to this heading"></a></h1>
+<p>This project uses a single Bash wrapper (<cite>create_InitCoor.sh</cite>) together with six Python scripts to generate Packmol + Moltemplate input files and produce LAMMPS‐ready data files.</p>
+<section id="graphical-summary">
+<h2>Graphical Summary<a class="headerlink" href="#graphical-summary" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="/_static/img/pipeline_summary.gif"><img alt="Graphical summary of the init-conditions pipeline" class="align-center" src="_images/graphical_summary.gif" />
+</a>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Ensure prerequisites are on your PATH</strong>
+- <cite>packmol</cite>
+- <cite>moltemplate.sh</cite>
+- A LAMMPS binary (e.g., <cite>lmp_serial</cite>)</p></li>
+<li><p><strong>Run the pipeline</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">create_InitCoor</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>Behind the scenes, this executes:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">LT_writer.py</span>&#160; <span class="pre">&lt;n&gt;</span>&#160; <span class="pre">&lt;seg_pattern&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">writePackmolInput.py</span>&#160; <span class="pre">&lt;n&gt;</span>&#160; <span class="pre">&lt;NA&gt;</span>&#160; <span class="pre">&lt;NB&gt;</span>&#160; <span class="pre">&lt;L&gt;</span>&#160; <span class="pre">populate_tmp.inp</span>&#160; <span class="pre">IC_tmp.xyz</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">writeSysLT.py</span>&#160; <span class="pre">&lt;n&gt;</span>&#160; <span class="pre">&lt;NA&gt;</span>&#160; <span class="pre">&lt;NB&gt;</span>&#160; <span class="pre">&lt;L&gt;</span>&#160; <span class="pre">b70_N200_L&lt;L&gt;.lt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packmol</span> <span class="pre">&lt;</span> <span class="pre">populate_tmp.inp</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">moltemplate.sh</span> <span class="pre">-xyz</span> <span class="pre">IC_tmp.xyz</span> <span class="pre">b70_N200_L&lt;L&gt;.lt</span> <span class="pre">-nocheck</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">updateColVar.py</span>&#160; <span class="pre">IC_tmp.xyz</span>&#160; <span class="pre">N400_Rg_L700.colvars</span>&#160; <span class="pre">&lt;L&gt;</span>&#160; <span class="pre">&lt;n&gt;</span>&#160; <span class="pre">&lt;NA&gt;</span>&#160; <span class="pre">&lt;NB&gt;</span>&#160; <span class="pre">&lt;seg_pattern&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">updateInput.py</span>&#160; <span class="pre">Template_input.in</span>&#160; <span class="pre">&lt;L&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">fix_datafiles.py</span>&#160; <span class="pre">b70_N200_L&lt;L&gt;.data</span></code></p></li>
+</ol>
+</li>
+<li><p><strong>After successful execution</strong>, you will find:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IC_tmp</span><span class="o">.</span><span class="n">xyz</span>
+<span class="n">polyA_n</span><span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;.</span><span class="n">lt</span><span class="p">,</span> <span class="n">polyB_n</span><span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;.</span><span class="n">lt</span>
+<span class="n">b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="n">lt</span>
+<span class="n">b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="n">data</span>
+<span class="n">b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="ow">in</span>
+<span class="n">N200_Rg_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="n">colvars</span>
+<span class="n">submit_b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>You can then launch LAMMPS with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lmp_serial</span> <span class="o">-</span><span class="ow">in</span> <span class="n">b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="ow">in</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="documentation-sections">
+<h2>Documentation Sections<a class="headerlink" href="#documentation-sections" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#source-code">Source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#configure-build">Configure &amp; build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#sanity-check">Sanity check</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#optional-python-wrapper">Optional: Python wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/pipeline.html">Pipeline Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/example_system_setup.html">Example System Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/example_system_setup.html#running-the-pipeline-and-generating-initial-condition">Running the Pipeline and Generating Initial Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/example_system_setup.html#inspecting-b70-n200-l500-data">Inspecting “b70_N200_L500.data”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/example_system_setup.html#inspecting-n200-rg-l500-colvars">Inspecting “N200_Rg_L500.colvars”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/example_system_setup.html#inspecting-b70-n200-l500-in">Inspecting “b70_N200_L500.in”</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/simulation_output.html">Simulation Output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#thermodynamic-data-thermo-fname-dat">Thermodynamic Data: <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;fName&gt;.dat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#bond-formation-breaking-data-bonddata-fname-dat">Bond-Formation/Breaking Data: <code class="docutils literal notranslate"><span class="pre">BondData_&lt;fName&gt;.dat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#collective-variable-trajectory-fname-colvars-traj">Collective-Variable Trajectory: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.traj</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#lammps-dump-trajectory-traj-fname-dump">LAMMPS Dump Trajectory: <code class="docutils literal notranslate"><span class="pre">traj_&lt;fName&gt;.dump</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#colvars-metadynamics-hills-fname-colvars-meta-radgy-hills-traj">Colvars Metadynamics Hills: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.meta-radgy.hills.traj</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#potential-of-mean-force-pmf-fname-pmf">Potential of Mean Force (PMF): <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.pmf</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#restart-files">Restart Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#lammps-log-file-fname-log">LAMMPS Log File: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.log</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#summary-of-all-simulation-outputs">Summary of All Simulation Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/data_analysis.html">Data-Analysis Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#potential-energy-trace">Potential-Energy Trace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#bonded-sticker-fraction-bsf-time-series">Bonded-Sticker Fraction (BSF) – time series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#cluster-size-vs-bound-sticker-fraction-scatter">Cluster Size vs Bound-Sticker Fraction (scatter)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#sticker-dissociation-events">Sticker Dissociation Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#cluster-size-distribution">Cluster-Size Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#radial-sticker-spacer-density">Radial Sticker / Spacer Density</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#chain-neighbour-histogram">Chain-Neighbour Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#sticker-bond-multiplicity-per-chain-pair">Sticker-Bond Multiplicity per Chain Pair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#inter-molecular-sticker-sticker-distances">Inter-molecular Sticker-Sticker Distances</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html#core-pipeline-utilities">Core pipeline utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html#analysis-helpers">Analysis helpers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage/installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aniruddha Chattaraj, David Kanovich.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

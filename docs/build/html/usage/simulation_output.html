@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulation Output &mdash; generate_InitCond 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data-Analysis Helpers" href="data_analysis.html" />
+    <link rel="prev" title="Example System Setup" href="example_system_setup.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/Logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_system_setup.html">Example System Setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Simulation Output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#thermodynamic-data-thermo-fname-dat">Thermodynamic Data: <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;fName&gt;.dat</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#explanation">Explanation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bond-formation-breaking-data-bonddata-fname-dat">Bond-Formation/Breaking Data: <code class="docutils literal notranslate"><span class="pre">BondData_&lt;fName&gt;.dat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#collective-variable-trajectory-fname-colvars-traj">Collective-Variable Trajectory: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.traj</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lammps-dump-trajectory-traj-fname-dump">LAMMPS Dump Trajectory: <code class="docutils literal notranslate"><span class="pre">traj_&lt;fName&gt;.dump</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#colvars-metadynamics-hills-fname-colvars-meta-radgy-hills-traj">Colvars Metadynamics Hills: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.meta-radgy.hills.traj</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#potential-of-mean-force-pmf-fname-pmf">Potential of Mean Force (PMF): <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.pmf</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#restart-files">Restart Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#intermediate-restarts-fname-tp-restart">Intermediate restarts (<code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;_tp_*.restart</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#final-restart-final-state-fname-restart">Final restart (<code class="docutils literal notranslate"><span class="pre">final_state_&lt;fName&gt;.restart</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#lammps-log-file-fname-log">LAMMPS Log File: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.log</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary-of-all-simulation-outputs">Summary of All Simulation Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_analysis.html">Data-Analysis Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">generate_InitCond</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Simulation Output</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/usage/simulation_output.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="simulation-output">
+<h1>Simulation Output<a class="headerlink" href="#simulation-output" title="Link to this heading"></a></h1>
+<p>This page documents all of the primary output files produced by the
+pipeline and by LAMMPS during and after the simulation.  Each subsection
+shows a representative excerpt (or header) from the file, followed by a
+line-by-line explanation of its contents.  No analysis is performed
+here—just plain descriptions of what each column or section means.</p>
+<section id="thermodynamic-data-thermo-fname-dat">
+<h2>Thermodynamic Data: <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;fName&gt;.dat</span></code><a class="headerlink" href="#thermodynamic-data-thermo-fname-dat" title="Link to this heading"></a></h2>
+<p>Below is the header line and the first few rows of a typical thermodynamic
+output file:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Steps Temp KinEng PotEng Epair Ebond Eangle Bonds
+1000000 309.9092980089979 12932.006720561228 2421.2753602970483 -5608.9113003346756 -1676.5739699962255 9706.7606306279486 14845
+2000000 308.4459769650038 12870.944733402906 580.1671941493225 -6212.513108889987 -2765.9452470589113 9558.625550098221 15019
+3000000 308.9000673416380 12889.893180061661 -663.6937637213039 -6715.222056123977 -3378.1828104342594 9429.711102836933 15138
+4000000 307.9393191012913 12849.802731724838 -1247.4935140060538 -7047.389388496154 -3702.186514574762 9502.082389064863 15199
+</pre></div>
+</div>
+<section id="explanation">
+<h3>Explanation<a class="headerlink" href="#explanation" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p><strong>Header</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Steps</span> <span class="pre">Temp</span> <span class="pre">KinEng</span> <span class="pre">PotEng</span> <span class="pre">Epair</span> <span class="pre">Ebond</span> <span class="pre">Eangle</span> <span class="pre">Bonds</span></code></p>
+<ul class="simple">
+<li><p><cite>Steps</cite> – Current LAMMPS timestep.</p></li>
+<li><p><cite>Temp</cite> – Instantaneous temperature (K).</p></li>
+<li><p><cite>KinEng</cite> – Total kinetic energy (kcal mol⁻¹).</p></li>
+<li><p><cite>PotEng</cite> – Total potential energy.</p></li>
+<li><p><cite>Epair</cite> – Pairwise (non-bonded) energy.</p></li>
+<li><p><cite>Ebond</cite> – Bond energy.</p></li>
+<li><p><cite>Eangle</cite> – Angle energy.</p></li>
+<li><p><cite>Bonds</cite> – Total number of bonds at that step.</p></li>
+</ul>
+</li>
+<li><p><strong>First data row</strong> (for example
+<code class="docutils literal notranslate"><span class="pre">1000000</span> <span class="pre">309.909…</span> <span class="pre">12932.0067</span> <span class="pre">…</span></code>) follows the same column order.</p></li>
+</ol>
+</section>
+</section>
+<section id="bond-formation-breaking-data-bonddata-fname-dat">
+<h2>Bond-Formation/Breaking Data: <code class="docutils literal notranslate"><span class="pre">BondData_&lt;fName&gt;.dat</span></code><a class="headerlink" href="#bond-formation-breaking-data-bonddata-fname-dat" title="Link to this heading"></a></h2>
+<p>Snippet:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1000000 1566 521
+2000000 2417 1198
+3000000 3330 1992
+4000000 4191 2792
+</pre></div>
+</div>
+<p><em>Columns</em></p>
+<ul class="simple">
+<li><p><strong>Step</strong> – Timestep of the record.</p></li>
+<li><p><strong>Cumulative Bonds Formed</strong> – Total new bonds so far.</p></li>
+<li><p><strong>Cumulative Bonds Broken</strong> – Total breaks so far.</p></li>
+</ul>
+</section>
+<section id="collective-variable-trajectory-fname-colvars-traj">
+<h2>Collective-Variable Trajectory: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.traj</span></code><a class="headerlink" href="#collective-variable-trajectory-fname-colvars-traj" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># step         Rg1
+       0    2.76034911120119e+02
+   50000    2.74510753203738e+02
+  100000    2.73564239569613e+02
+  150000    2.73851073534982e+02
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>step</strong> – LAMMPS timestep.</p></li>
+<li><p><strong>Rg1</strong> – Radius of gyration (Å).</p></li>
+</ul>
+</section>
+<section id="lammps-dump-trajectory-traj-fname-dump">
+<h2>LAMMPS Dump Trajectory: <code class="docutils literal notranslate"><span class="pre">traj_&lt;fName&gt;.dump</span></code><a class="headerlink" href="#lammps-dump-trajectory-traj-fname-dump" title="Link to this heading"></a></h2>
+<p>Each block begins with <code class="docutils literal notranslate"><span class="pre">ITEM:</span> <span class="pre">TIMESTEP</span></code> and ends with an <code class="docutils literal notranslate"><span class="pre">ATOMS</span></code>
+table:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ITEM: TIMESTEP
+0
+ITEM: NUMBER OF ATOMS
+14000
+ITEM: BOX BOUNDS pp pp pp
+-4.20e+02 4.20e+02
+-4.20e+02 4.20e+02
+-4.20e+02 4.20e+02
+ITEM: ATOMS id type mol mass x y z xu yu zu
+10550 4 151 1000 -184.08 -109.786 -288.422 -184.08 -109.786 -288.422
+…
+</pre></div>
+</div>
+<p>Key columns are <cite>id</cite>, <cite>type</cite>, <cite>mol</cite>, <cite>mass</cite>, wrapped (<cite>x y z</cite>) and
+unwrapped (<cite>xu yu zu</cite>) coordinates.</p>
+</section>
+<section id="colvars-metadynamics-hills-fname-colvars-meta-radgy-hills-traj">
+<h2>Colvars Metadynamics Hills: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.meta-radgy.hills.traj</span></code><a class="headerlink" href="#colvars-metadynamics-hills-fname-colvars-meta-radgy-hills-traj" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   0     2.65169992360953e+02    1.00000000000000e+00   2.00000000000000e-01
+ 500     2.65195448031953e+02    1.00000000000000e+00   2.00000000000000e-01
+1000     2.65215417786256e+02    1.00000000000000e+00   2.00000000000000e-01
+</pre></div>
+</div>
+<p>Columns: index (colvar steps), R&lt;sub&gt;g&lt;/sub&gt;, hill height, hill width.</p>
+</section>
+<section id="potential-of-mean-force-pmf-fname-pmf">
+<h2>Potential of Mean Force (PMF): <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.pmf</span></code><a class="headerlink" href="#potential-of-mean-force-pmf-fname-pmf" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># 1
+#          0         1       277  0
+ 0.5  1711.9
+ 1.5  1711.9
+ 2.5  1711.9
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>First column</strong> – Bin centre (Å).</p></li>
+<li><p><strong>Second column</strong> – PMF value (kcal mol⁻¹).</p></li>
+</ul>
+</section>
+<section id="restart-files">
+<h2>Restart Files<a class="headerlink" href="#restart-files" title="Link to this heading"></a></h2>
+<section id="intermediate-restarts-fname-tp-restart">
+<h3>Intermediate restarts (<code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;_tp_*.restart</span></code>)<a class="headerlink" href="#intermediate-restarts-fname-tp-restart" title="Link to this heading"></a></h3>
+<p>Binary snapshots written every <em>dt_restart</em> steps let you resume from an
+earlier point:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lmp_serial<span class="w"> </span>-r<span class="w"> </span>&lt;fName&gt;_tp_25000000.restart<span class="w"> </span>-in<span class="w"> </span>&lt;restart_input.in&gt;
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="final-restart-final-state-fname-restart">
+<h3>Final restart (<code class="docutils literal notranslate"><span class="pre">final_state_&lt;fName&gt;.restart</span></code>)<a class="headerlink" href="#final-restart-final-state-fname-restart" title="Link to this heading"></a></h3>
+<p>Written at the end of the production run; useful for visualisation or as
+the starting point for a new simulation.</p>
+</section>
+</section>
+<section id="lammps-log-file-fname-log">
+<h2>LAMMPS Log File: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.log</span></code><a class="headerlink" href="#lammps-log-file-fname-log" title="Link to this heading"></a></h2>
+<p>Captures start-up messages, warnings/errors and (optionally) thermo
+output.  A typical header:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>LAMMPS (5Dec20)
+Reading data file ...
+  orthogonal box = (-420 420) x (-420 420) y (-420 420) z
+  14000 atoms
+  13800 bonds
+  13600 angles
+</pre></div>
+</div>
+</section>
+<section id="summary-of-all-simulation-outputs">
+<h2>Summary of All Simulation Outputs<a class="headerlink" href="#summary-of-all-simulation-outputs" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>``Thermo_&lt;fName&gt;.dat``</strong> – step, temperature, energies &amp; bond count.</p></li>
+<li><p><strong>``BondData_&lt;fName&gt;.dat``</strong> – cumulative bonds formed/broken.</p></li>
+<li><p><strong>``&lt;fName&gt;.colvars.traj``</strong> – colvar history.</p></li>
+<li><p><strong>``traj_&lt;fName&gt;.dump``</strong> – full atom snapshots.</p></li>
+<li><p><strong>``&lt;fName&gt;.colvars.meta-radgy.hills.traj``</strong> – metadynamics hills.</p></li>
+<li><p><strong>``&lt;fName&gt;.pmf``</strong> – final PMF vs colvar.</p></li>
+<li><p><strong>``&lt;fName&gt;_tp_*.restart``</strong> – periodic binary restarts.</p></li>
+<li><p><strong>``final_state_&lt;fName&gt;.restart``</strong> – last restart in the run.</p></li>
+<li><p><strong>``&lt;fName&gt;.log``</strong> – LAMMPS log (setup, warnings, optional thermo).</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="example_system_setup.html" class="btn btn-neutral float-left" title="Example System Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="data_analysis.html" class="btn btn-neutral float-right" title="Data-Analysis Helpers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aniruddha Chattaraj, David Kanovich.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
