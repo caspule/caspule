@@ -5,7 +5,7 @@ API Reference
 
 This page gathers the full autodoc output for every Python module that
 ships with **generate_InitCond**, including the lightweight helpers
-inside the :pymod:`analysis` package.
+inside the :py:mod:`analysis` package.
 
 .. contents::
    :local:
