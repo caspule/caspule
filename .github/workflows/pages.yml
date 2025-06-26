@@ -16,7 +16,7 @@ jobs:
       - name: Install deps & build Sphinx
         run: |
           pip install sphinx sphinx-rtd-theme
-          cd docs && make html
+          cd docs && sphinx-build -b html source build/html
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
