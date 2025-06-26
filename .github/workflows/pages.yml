@@ -15,8 +15,7 @@ jobs:
           python-version: '3.x'
       - name: Install deps & build Sphinx
         run: |
-          pip install numpy matplotlib sphinx sphinx-rtd-theme
-          python -m pip install networkx
+          pip install numpy matplotlib networkx scipy sphinx sphinx-rtd-theme
           cd docs && make html
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
