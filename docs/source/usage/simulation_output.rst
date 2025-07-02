@@ -127,16 +127,22 @@ Intermediate restarts (``<fName>_tp_*.restart``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Binary snapshots written every *dt_restart* steps let you resume from an
-earlier point:
+earlier point by replacing the line:
 
-   .. code-block:: bash
+.. code-block:: text
 
-      lmp_serial -r <fName>_tp_25000000.restart -in <restart_input.in>
+    read_data b70_N200_L300.data extra/special/per/atom 50s
+
+with 
+
+.. code-block:: text
+
+    read_restart <fName>_tp_25000000.restart
 
 Final restart (``final_state_<fName>.restart``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Written at the end of the production run; useful for visualisation or as
+Written at the end of the run; useful for visualisation or as
 the starting point for a new simulation.
 
 LAMMPS Log File: ``<fName>.log``

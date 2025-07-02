@@ -56,6 +56,7 @@ html_sidebars = {
 }
 
 html_logo = f"_static/img/Logo.png" 
+html_favicon = f"_static/img/Icon.png"
 html_theme_options = {
     "logo_only": True,                 # show only the logo, not project name text
     "display_version": False           # hide the version string
