@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'generate_InitCond'
+project = 'CASPULE'
 copyright = '2025, Aniruddha Chattaraj, David Kanovich'
 author = 'Aniruddha Chattaraj, David Kanovich'
 release = '0.1.0'
