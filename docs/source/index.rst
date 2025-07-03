@@ -8,7 +8,7 @@ Graphical Summary
 
 .. image:: /_static/img/graphical_summary.gif
    :alt: Graphical summary of the init-conditions pipeline
-   :target: /_static/img/pipeline_summary.gif
+   :target: /_static/img/graphic_summary.gif
    :align: center
 
 Quick Start
