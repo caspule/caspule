@@ -21,9 +21,6 @@ output file:
     3000000 308.9000673416380 12889.893180061661 -663.6937637213039 -6715.222056123977 -3378.1828104342594 9429.711102836933 15138
     4000000 307.9393191012913 12849.802731724838 -1247.4935140060538 -7047.389388496154 -3702.186514574762 9502.082389064863 15199
 
-Explanation
-~~~~~~~~~~~
-
 1. **Header**
 
    ``# Steps Temp KinEng PotEng Epair Ebond Eangle Bonds``
@@ -104,7 +101,7 @@ Colvars Metadynamics Hills: ``<fName>.colvars.meta-radgy.hills.traj``
              500     2.65195448031953e+02    1.00000000000000e+00   2.00000000000000e-01
             1000     2.65215417786256e+02    1.00000000000000e+00   2.00000000000000e-01
 
-Columns: index (colvar steps), R<sub>g</sub>, hill height, hill width.
+Columns: index (colvar steps), :math:`R_{g}`, hill height, hill width.
 
 Potential of Mean Force (PMF): ``<fName>.pmf``
 ----------------------------------------------
@@ -127,11 +124,11 @@ Intermediate restarts (``<fName>_tp_*.restart``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Binary snapshots written every *dt_restart* steps let you resume from an
-earlier point by replacing the line:
+earlier point by replacing the read_data line in your input file:
 
 .. code-block:: text
 
-    read_data b70_N200_L300.data extra/special/per/atom 50s
+    read_data b70_N200_L300.data extra/special/per/atom 50
 
 with 
 
@@ -163,12 +160,12 @@ output.  A typical header:
 Summary of All Simulation Outputs
 ---------------------------------
 
-* **``Thermo_<fName>.dat``** – step, temperature, energies & bond count.  
-* **``BondData_<fName>.dat``** – cumulative bonds formed/broken.  
-* **``<fName>.colvars.traj``** – colvar history.  
-* **``traj_<fName>.dump``** – full atom snapshots.  
-* **``<fName>.colvars.meta-radgy.hills.traj``** – metadynamics hills.  
-* **``<fName>.pmf``** – final PMF vs colvar.  
-* **``<fName>_tp_*.restart``** – periodic binary restarts.  
-* **``final_state_<fName>.restart``** – last restart in the run.  
-* **``<fName>.log``** – LAMMPS log (setup, warnings, optional thermo).
+* **`Thermo_<fName>.dat`** – step, temperature, energies & bond count.  
+* **`BondData_<fName>.dat`** – cumulative bonds formed/broken.  
+* **`<fName>.colvars.traj`** – colvar history.  
+* **`traj_<fName>.dump`** – full atom snapshots.  
+* **`<fName>.colvars.meta-radgy.hills.traj`** – metadynamics hills.  
+* **`<fName>.pmf`** – final PMF vs colvar.  
+* **`<fName>_tp_*.restart`** – periodic binary restarts.  
+* **`final_state_<fName>.restart`** – last restart in the run.  
+* **`<fName>.log`** – LAMMPS log (setup, warnings, optional thermo).

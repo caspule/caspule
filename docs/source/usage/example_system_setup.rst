@@ -39,12 +39,6 @@ Sets the half-box length to 300 Å in each direction.
 
 .. code-block:: bash
 
-    L2=$((2*$L))
-
-Defines `L2 = 600`, the full box length (used internally by Moltemplate’s Data Boundary).
-
-.. code-block:: bash
-
     pck_inp='populate_tmp.inp'
     pck_out='IC_tmp.xyz'
 
@@ -58,7 +52,7 @@ Defines `L2 = 600`, the full box length (used internally by Moltemplate’s Data
     dataFile="b70_N200_L$L.data"
     lmp_input='Template_input.in'
 
-- `cvfile='N400_Rg_L700.colvars'` is the base Colvars input file used by `updateColVar.py`.
+- `cvfile='N400_Rg_L700.colvars'` is the template Colvars input file used by `updateColVar.py`.
 - `sysName="b70_N200_L$L.lt"` resolves to `b70_N200_L300.lt`, the Moltemplate system file.
 - `dataFile="b70_N200_L$L.data"` resolves to `b70_N200_L300.data`, which Moltemplate outputs.
 - `lmp_input='Template_input.in'` is the LAMMPS input template that `updateInput.py` will read and customize.
@@ -77,7 +71,7 @@ Runs `LT_writer.py 10 2212212`, generating:
 
     python3 writePackmolInput.py $n $NA $NB $L $pck_inp $pck_out
 
-Invokes `writePackmolInput.py 10 100 100 300 populate_tmp.inp IC_tmp.xyz`. Creates `populate_tmp.inp` to place 100 A-chains and 100 B-chains inside a 600 Å cube.
+Runs `writePackmolInput.py 10 100 100 300 populate_tmp.inp IC_tmp.xyz`. Creates `populate_tmp.inp` to place 100 A-chains and 100 B-chains inside a 600 Å cube.
 
 .. code-block:: bash
 
@@ -103,7 +97,7 @@ Runs Moltemplate on `IC_tmp.xyz b70_N200_L300.lt`, producing `b70_N200_L300.data
     python3 updateColVar.py $pck_out $cvfile $L $n $NA $NB $seg
 
 Runs `updateColVar.py IC_tmp.xyz N400_Rg_L700.colvars 300 10 100 100 2212212`, which:
-- Computes the initial R<sub>g</sub> and box dimensions from `IC_tmp.xyz`.
+- Computes the initial :math:`R_{g}` and box dimensions from `IC_tmp.xyz`.
 - Writes `N200_Rg_L300.colvars`, updating `upperBoundary`, `upperWalls`, and `atomNumbers`.
 
 .. code-block:: bash
@@ -143,7 +137,7 @@ A comment/header indicating this is a Moltemplate-generated data file.
     0  impropers
 
 - `14000 atoms`: total beads in the system.
-- `13800 bonds`: total covalent bonds.
+- `13800 bonds`: total harmonic bonds between neighboring beads.
 - `13600 angles`: total angles.
 - `0 dihedrals` / `0 impropers`: none present.
 
@@ -168,7 +162,7 @@ A comment/header indicating this is a Moltemplate-generated data file.
     -420.0 420.0 ylo yhi
     -420.0 420.0 zlo zhi
 
-Simulation box ranges from –420 Å to +420 Å in each dimension (since `L=500` plus buffer).
+Simulation box ranges from –420 Å to +420 Å in each dimension (since `L=300` plus buffer).
 
 .. code-block:: text
 
@@ -267,8 +261,8 @@ Starts a colvar block named `Rg1`.
        lowerBoundary 0.0
        upperBoundary 280
 
-- `lowerBoundary 0.0`: Minimum R<sub>g</sub> value.
-- `upperBoundary 280`: Maximum R<sub>g</sub> value computed by `updateColVar.py`.
+- `lowerBoundary 0.0`: Minimum :math:`R_{g}` value.
+- `upperBoundary 280`: Maximum :math:`R_{g}` value.
 
 .. code-block:: text
 
@@ -317,7 +311,7 @@ Starts a colvar block named `Rg1`.
           }
        }
 
-Lists all atom indices used in the R<sub>g</sub> calculation.
+Lists all atom indices which will experience metadynamic bias.
 
 .. code-block:: text
 
@@ -356,7 +350,7 @@ Lists all atom indices used in the R<sub>g</sub> calculation.
 - `harmonicWalls {`: Begins a harmonic-walls block.
 - `name wall_Rg`: Names this constraint “wall_Rg.”
 - `colvars Rg1`: Applies the wall to colvar `Rg1`.
-- `upperWalls 275`: Place a hard wall at R<sub>g</sub> = 275 Å.
+- `upperWalls 275`: Place a hard wall at :math:`R_{g}` = 275 Å.
 - `upperWallConstant 20.0`: Wall force constant = 20 kcal/mol/Å².
 
 Inspecting “b70_N200_L500.in”
@@ -430,8 +424,8 @@ Reads the data file `b70_N200_L300.data`, allowing 50 special bond tags per atom
 - `bond_style hybrid harmonic harmonic/shift/cut`: Use hybrid bond potentials.
 - `bond_coeff 1 harmonic 3 10`: Type 1 bonds: K = 3, length = 10 Å.
 - `bond_coeff 2 harmonic 3 10`: Type 2 bonds: K = 3, length = 10 Å.
-- `bond_coeff 3 harmonic/shift/cut 6 11.22 12.72`: Type 3 bonds: K = 6, eq = 11.22 Å, cutoff = 12.72 Å.
-
+- `bond_coeff 3 harmonic/shift/cut 6 11.22 12.72`: Type 3 (sticker-sticker)bonds: K = 6, eq = 11.22 Å, cutoff = 12.72 Å.
+)
 .. code-block:: text
 
     pair_style lj/cut 25
@@ -442,9 +436,9 @@ Reads the data file `b70_N200_L300.data`, allowing 50 special bond tags per atom
 
 .. code-block:: text
 
-    special_bonds lj 1 1 1 angle no
+    special_bonds lj 0 1 1 angle yes
 
-Use full LJ (no scaling) for 1–2, 1–3, 1–4 neighbors, without excluding LJ for angles.
+Skip LJ for directly bonded 1‑2 pairs while retaining full LJ on 1‑3 pairs that form angles/dihedrals and on all 1‑4 neighbors.
 
 .. code-block:: text
 
@@ -484,18 +478,20 @@ Use full LJ (no scaling) for 1–2, 1–3, 1–4 neighbors, without excluding LJ
     variable steps equal 400000000
     variable dt_thermo equal 1000000
     variable dt_movie equal 10000000
+    variable dt_restart equal 40000000
 
 - `variable t equal step`: Convenience variable for the current timestep.
 - `variable steps equal 400000000`: Production run length = 400 million steps.
 - `variable dt_thermo equal 1000000`: Thermo output every 1 000 000 steps.
 - `variable dt_movie equal 10000000`: Dump trajectory every 10 000 000 steps.
+- `variable dt_restart equal 40000000`: Write intermediate restart every 40 000 000 steps.
 
 .. code-block:: text
 
     group rxnSites type 1 3
     fix CV_Rg all colvars N200_Rg_L300.colvars output ${fName}
 
-- `group rxnSites type 1 3`: Define group “rxnSites” containing atom types 1 & 3.
+- `group rxnSites type 1 3`: Define group “rxnSites” containing atom types 1 & 3 (stickers).
 - `fix CV_Rg all colvars N200_Rg_L300.colvars output ${fName}`: Attach Colvars using `N200_Rg_L300.colvars`, writing output prefixed by `b70_N200_L300`.
 
 .. code-block:: text

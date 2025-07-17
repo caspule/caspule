@@ -5,13 +5,12 @@ Pipeline Overview
 the top, run it once, and you receive a complete **LAMMPS start-up
 folder** containing
 
-* **IC_tmp.xyz** — packed bead coordinates (Packmol)  
-* **b70_N200_L<L>.data** — Moltemplate data file  
-* **N200_Rg_L<L>.colvars** — colvars tuned to the system size  
-* **b70_N200_L<L>.in** — production input (+ optional Slurm script)
+* **b70_N200_L<L>.data** — Data file  
+* **N200_Rg_L<L>.colvars** — Colvars tuned to the system size  
+* **b70_N200_L<L>.in** — Lammps Input (+optional Slurm input script)
 
-The diagram below shows the flow; the numbered sections explain every
-call in the wrapper, which files it consumes, and which files it writes.
+The numbered sections below explain every call in the wrapper, 
+which files it consumes, and which files it writes.
 
 .. rubric:: Wrapper variables
 
@@ -28,7 +27,7 @@ call in the wrapper, which files it consumes, and which files it writes.
    * - ``NA`` / ``NB``
      - Number of **A-chains** / **B-chains** (``100`` / ``100``)
    * - ``L``
-     - Half-box length (``500 Å``) → Packmol cube :math:`[-L, L]^3`
+     - Half-box length (``500 Å``) → Packmol cube :math:`[-(L+20), (L+20)]^3`
 
 All filenames downstream are built from these numbers, e.g.
 :file:`b70_N200_L500.lt` (``b`` = 70 % beads, ``N200`` = 100 + 100
@@ -85,7 +84,7 @@ The helper chain executed by *create_InitCoor.sh*:
 
 *Creates* :file:`populate_tmp.inp` containing **two** ``structure`` blocks,
 each requesting ``NA`` or ``NB`` copies inside the cube
-:math:`[-L, L]^3` with 10 Å clearance.
+:math:`[-(L+20), (L+20)]^3` with 10 Å clearance.
 
 .. rubric:: 3.3 Packmol — coordinate packing
 
@@ -142,7 +141,7 @@ trust Packmol.
 
 * Computes **radius of gyration** from *all* beads.  
 * Sets ``upperBoundary = Rg + 10`` and ``upperWalls = Rg + 5``.  
-* Generates an ``atomNumbers`` list selecting **half-chains**.  
+* Generates an ``atomNumbers`` list selecting one bead from the center of each chain to experience metadynamics bias.  
 * Writes :file:`N200_Rg_L<L>.colvars`.
 
 .. rubric:: 3.7 ``updateInput.py`` — final *.in* & Slurm launcher

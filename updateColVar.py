@@ -142,4 +142,3 @@ if __name__ == "__main__":
     print()
     print("File: ", xyzFile)
     print(f"RadGy ~ {int(round(Rg))} A")
-    print("Dimension length (x,y,z): ", getBoxDim(posArr))

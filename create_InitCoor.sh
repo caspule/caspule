@@ -3,9 +3,8 @@ seg=2212212 # segment pattern
 
 NA=100 # A-chain count
 NB=100 # B-chain count 
-#L=300 # 
-L=500
-L2=$((2*$L))
+
+L=300
 
 pck_inp='populate_tmp.inp'
 
@@ -31,6 +30,3 @@ moltemplate.sh -xyz $pck_out $sysName -nocheck
 python3 updateColVar.py $pck_out $cvfile $L $n $NA $NB $seg
 python3 updateInput.py $lmp_input $L 
 python3 fix_datafiles.py $dataFile
-
-done 
-
