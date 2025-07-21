@@ -32,9 +32,6 @@ Prerequisites (Harvard cluster)
       module load gcc/14.2.0-fasrc01
       module load openmpi/5.0.5-fasrc01
 
-Source code
------------
-
 3. **Download and unpack LAMMPS 3 Mar 2020**:
 
    .. code-block:: bash
