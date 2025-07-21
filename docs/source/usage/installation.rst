@@ -3,30 +3,31 @@ Installation
 
 This guide walks you through compiling **LAMMPS 3 Mar 2020** with the
 custom ``bond/create/random`` fix needed for the *generate_InitCond*
-polymer-network examples.  
-The steps assume access to an FASRC‐style cluster, but they also work
-on any system that provides recent CMake, GCC ≥ 14, and Open MPI.
+polymer-network examples.  Two build environments are supported:
+
+- **Harvard FASRC-style cluster** (CMake, GCC ≥ 14, Open MPI modules)
+- **macOS** (Conda environment, CMake, Open MPI)
 
 .. note::
 
-   ``bond/create/random`` is *not* part of vanilla 3 Mar 2020.
+   The ``bond/create/random`` fix is *not* part of vanilla 3 Mar 2020.
    We patch it in manually from the
    `pdebuyl/lammps *fbc_random* branch <https://github.com/pdebuyl/lammps/tree/fbc_random/src/MC>`_.
 
-Prerequisites
--------------
+Prerequisites (Harvard cluster)
+--------------------------------
 
-1. **Start an interactive job**
+1. **Start an interactive job**:
 
    .. code-block:: bash
 
       salloc -p test --mem 4G -t 0-3:00
 
-2. **Load build tools**
+2. **Load build tools**:
 
    .. code-block:: bash
 
-      module avail  # just to confirm the names below
+      module avail    # confirm available module names
       module load cmake/3.31.6-fasrc01
       module load gcc/14.2.0-fasrc01
       module load openmpi/5.0.5-fasrc01
@@ -34,7 +35,7 @@ Prerequisites
 Source code
 -----------
 
-3. **Download and unpack LAMMPS 3 Mar 2020**
+3. **Download and unpack LAMMPS 3 Mar 2020**:
 
    .. code-block:: bash
 
@@ -42,21 +43,18 @@ Source code
       tar -xf lammps-3Mar2020.tar.gz
       cd lammps-3Mar2020
 
-4. **Add the patched fix**
-
-   Copy the two files below into *src/MC* (create the folder if absent):
+4. **Add the patched fix** (create the directory if absent):
 
    .. code-block:: bash
 
+      mkdir -p src/MC
       cp /path/to/fix_bond_create_random.cpp src/MC/
       cp /path/to/fix_bond_create_random.h   src/MC/
 
-   (They come from the *fbc_random* branch linked above.)
+Configure & build (Harvard cluster)
+-----------------------------------
 
-Configure & build
------------------
-
-5. **Create a build directory**
+5. **Create a build directory**:
 
    .. code-block:: bash
 
@@ -68,9 +66,7 @@ Configure & build
 
       cmake ../cmake -DBUILD_MPI=on
 
-7. **Enable required packages**
-
-   The 2020 release still uses old package names:
+7. **Enable required packages** (old package names):
 
    .. code-block:: bash
 
@@ -79,15 +75,15 @@ Configure & build
             -DPKG_USER-MISC=on \
             -DPKG_USER-COLVARS=on .
 
-8. **Compile**
+8. **Compile**:
 
    .. code-block:: bash
 
       cmake --build . -j$(nproc)
 
-   The resulting executable is:
+   The resulting executable will be in::
 
-   ``lammps-3Mar2020/build/lmp``
+      build/lmp
 
 Sanity check
 ------------
@@ -102,13 +98,73 @@ Expected output::
 
    bond/create/random       Create bonds (random partner selection)  [MC]
 
-If nothing appears, the patch was not picked up—revisit **Step 4** or
-ensure ``-DPKG_MC=on`` was passed to CMake.
+Prerequisites (macOS)
+---------------------
+
+1. **Install Conda and create a new environment**:
+
+   .. code-block:: bash
+
+      # Assumes Miniconda or Anaconda is already installed
+      conda create -n lammps_env
+      conda activate lammps_env
+
+2. **Install compilers and tools via Conda**:
+
+   .. code-block:: bash
+
+      conda install -c conda-forge cxx-compiler
+      conda install -c conda-forge cmake=3.31.6
+      conda install -c conda-forge openmpi
+
+Configure & build (macOS)
+-------------------------
+
+3. **Download and unpack LAMMPS 3 Mar 2020** (same as step 3 above):
+
+   .. code-block:: bash
+
+      curl -O https://download.lammps.org/tars/lammps-3Mar2020.tar.gz
+      tar -xf lammps-3Mar2020.tar.gz
+      cd lammps-3Mar2020
+
+4. **Add the patched fix** (same as step 4 above).
+
+5. **Create a build directory**:
+
+   .. code-block:: bash
+
+      mkdir build && cd build
+
+6. **Configure with CMake** (specify C++14 standard):
+
+   .. code-block:: bash
+
+      cmake ../cmake -DCMAKE_CXX_STANDARD=14
+
+7. **Enable required packages**:
+
+   .. code-block:: bash
+
+      cmake -DPKG_MC=on \
+            -DPKG_MOLECULE=on \
+            -DPKG_USER-MISC=on \
+            -DPKG_USER-COLVARS=on .
+
+8. **Compile** (same as in step 8 above):
+
+   .. code-block:: bash
+
+      cmake --build . -j$(sysctl -n hw.ncpu)
+
+   The executable will be in::
+
+      build/lmp
 
 Optional: Python wrapper
 ------------------------
 
-If you plan to control LAMMPS from Jupyter/NumPy:
+If you plan to control LAMMPS from Jupyter or NumPy, install the Cython wrapper:
 
 .. code-block:: bash
 
@@ -121,8 +177,5 @@ Troubleshooting
   Re-run CMake with ``-DPKG_MC=on`` and rebuild.
 
 * **“New bond exceeded bonds per atom …”**  
-  Increase *maxbond* in your ``bond/create/random`` command or raise
+  Increase your ``maxbond`` setting in the ``bond/create/random`` command or raise
   ``extra/special/per/atom`` in the ``read_data`` section.
-
-With LAMMPS successfully built you can run the *generate_InitCond*
-pipeline and companion analysis notebooks without further modification.
