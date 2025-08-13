@@ -1,7 +1,7 @@
 Welcome to CASPULE’s documentation!
 =============================================
 
-This project uses a single Bash wrapper (`create_InitCoor.sh`) together with six Python scripts to generate Packmol + Moltemplate input files and produce LAMMPS‐ready data files.
+This project uses a single Bash wrapper (`create_InitCoor.sh`) together with six Python scripts to generate Packmol + Moltemplate input files and produce LAMMPS‐ready data files. This is Ani's edit. 
 
 Graphical Summary
 -----------------
