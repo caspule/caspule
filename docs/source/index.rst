@@ -59,6 +59,7 @@ Documentation Sections
    :caption: Contents:
 
    usage/installation
+   usage/model_overview
    usage/pipeline
    usage/example_system_setup
    usage/simulation_output
