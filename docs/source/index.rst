@@ -1,7 +1,7 @@
 CASPULE — Setup • Simulate • Analyze Sticker–Spacer Polymers
 ============================================================
 
-**CASPULE**: (**C**)ondensate (**A**)nalysis of (**S**)ticker–Spacer (**P**)olymeric Condensates (**U**)sing (**L**)AMMPS (**E**)ngine is a pipeline for coarse-grained simulations of polymers with specific (sticker) and non-specific (all beads) interactions. It automates system setup, LAMMPS simulation, and analysis of sticker–spacer polymer phase behavior.
+**CASPULE**: (**C**)omputational (**A**)nalysis of (**S**)ticker–Spacer (**P**)olymeric Condensates (**U**)sing (**L**)AMMPS (**E**)ngine is a pipeline for coarse-grained simulations of polymers with specific (sticker) and non-specific (all beads) interactions. It automates system setup, LAMMPS simulation, and analysis of sticker–spacer polymer phase behavior.
 
 Overview
 ========
