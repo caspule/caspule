@@ -1,7 +1,7 @@
 CASPULE — Setup • Simulate • Analyze Sticker–Spacer Polymers
 ============================================================
 
-**CASPULE**, (**C**)omputational  (**A**)nalysis of (**S**)ticker Spacer (**P**)olymeric (**C**)ondensates (**U**)sing (**L**)AMMPS (**E**)ngine, is a pipeline for Langevin Dynamics simulations of coarse-grained biopolymers. It automates system setup, LAMMPS simulation, and analysis of sticker–spacer polymer phase behavior. It provides an end-to-end reproducible computational protocol to simulate and analyze biological condensates. 
+**CASPULE**, (**C**)omputational  (**A**)nalysis of (**S**)ticker Spacer (**P**)olymeric (**C**)ondensates (**U**)sing (**L**)AMMPS (**E**)ngine, is a pipeline for Langevin Dynamics simulations of coarse-grained biopolymers. It automates system setup, `LAMMPS <https://www.lammps.org/#gsc.tab=0>`_ simulation, and analysis of sticker–spacer polymer phase behavior. It provides an end-to-end reproducible computational protocol to simulate and analyze biological condensates. 
 
 Overview
 ========
@@ -31,7 +31,7 @@ Prerequisites
 Ensure these are on ``$PATH`` (or module-loaded):
 
 - `packmol <https://m3g.github.io/packmol/>`_
-- ``moltemplate.sh``
+- `moltemplate <https://www.moltemplate.org/>`_ 
 - **LAMMPS** with ``fix bond/create/random``, ``bond/break``, Colvars (for metadynamics), MPI build recommended
 - Python 3 with the packages listed in :doc:`usage/installation`
 
