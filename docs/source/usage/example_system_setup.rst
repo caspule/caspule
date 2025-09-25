@@ -2,12 +2,11 @@ Example System Setup
 ====================
 
 This section walks through a complete, working example:
-1. Defining a small polymer system
-2. Running the pipeline to generate initial data
-3. Launching a short LAMMPS simulation
-4. Examining the key output files and results
+1. Defining a small polymer system and generate initial configuration (.data) file
+2. Launching a short LAMMPS simulation
+3. Examining the key output files and results
 
-Running the Pipeline and Generating Initial Condition
+Generating Initial Condition
 -----------------------------------------------------
 
 Below is a line-by-line breakdown of the key commands in `create_InitCoor.sh`. Each code snippet is followed by its purpose.

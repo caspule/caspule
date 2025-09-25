@@ -30,7 +30,7 @@ which files it consumes, and which files it writes.
      - Half-box length (``500 Å``) → Packmol cube :math:`[-(L+20), (L+20)]^3`
 
 All filenames downstream are built from these numbers, e.g.
-:file:`b70_N200_L500.lt` (``b`` = 70 % beads, ``N200`` = 100 + 100
+:file:`b70_N200_L500.lt` (``b`` = 70 beads, ``N200`` = 100 + 100
 chains).
 
 .. rubric:: End-to-end flow
