@@ -1,9 +1,8 @@
 Model Overview
 ==============
 
-This page documents the coarse-grained **heterotypic sticker–spacer** model
-used to study **condensate coalescence**. The emphasis is on extracting
-generic principles rather than reproducing a specific biomolecular system.
+This page describes a typical set of model parameters (force-fields) used in the sticker spacer simulations. The values are mostly obtained from `Chattaraj 2024 <https://www.nature.com/articles/s41467-024-50489-5>`_, `Chattaraj 2025 <https://www.cell.com/biophysj/fulltext/S0006-3495(24)04098-0>`_.   
+
 
 .. rubric:: Scope & Rationale
 
