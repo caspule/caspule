@@ -94,7 +94,7 @@ inter-sticker distance under the settings below.
 * If a bonded pair reaches :math:`R \ge R_\mathrm{cut}`, the bond
   **breaks** (probability :math:`p_\mathrm{off}=1`).
 * While bonded, the nonspecific LJ between the pair is **disabled**
-  and replaced by the specific potential.
+  and replaced by the specific potential. Upon bond break, the LJ potential is reinstated.
 
 .. rubric:: Specific potential (shifted harmonic)
 
@@ -192,9 +192,6 @@ with a truncation at :math:`R_\mathrm{max}` for efficiency.
   governed by :math:`E_s`).
 * **Contacts** = **nonspecific** LJ interactions among any beads
   (governed by :math:`E_{ns}`).
-* When two complementary stickers are **bonded**, their LJ contact is
-  **suppressed** in favor of :math:`E_{\text{spec}}`. Upon bond
-  breakage, LJ becomes operative again.
 
 Energy Units & Reporting
 ------------------------
