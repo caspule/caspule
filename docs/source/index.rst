@@ -78,12 +78,12 @@ Notes
 =====
 
 **Specific interaction**  
-One-valent stickers via ``fix bond/create/random`` + ``bond/break``,  
+Single-valent stickers via ``fix bond/create/random`` + ``bond/break``,  
 with shifted-harmonic bonds (well depth ``E_s``).
 
 **Non-specific interaction**  
 LJ (``pair_style lj/cut``) with well depth ``E_ns``;  
-bonded pairs excluded (``special_bonds lj 0 1 1 angle yes``).
+LJ interactions between bonded beads are excluded (``special_bonds lj 0 1 1 angle yes``).
 
 **Typical parameter choices**  
 - ``r0 = 1.122 σ`` with ``σ = 10 Å``  
@@ -93,10 +93,10 @@ bonded pairs excluded (``special_bonds lj 0 1 1 angle yes``).
 - ``tdamp ≈ 500 fs``
 
 **Parallel scaling rule of thumb**  
-~500 beads / CPU; enable domain load balancing  
+~500 beads / CPU; enable simulation load balancing for spatially heterogenous systems  
 (``comm_style tiled`` + ``fix balance``).
 
-**Metadynamics (optional):** supply Colvars (e.g., ``N200_Rg_L<L>.colvars``) to accelerate clustering or coalescence along chosen CVs.
+**Metadynamics (optional):** supply Colvars (e.g., ``N200_Rg_L<L>.colvars``) to accelerate process of interest (clustering, coalescence etc.) along user defined collective variables (Rg, Inter-cluster distance etc.).
 
 Step 3 — Analyze (one-command reports)
 --------------------------------------
@@ -115,14 +115,7 @@ Example:
    python3 analysis/bonded_sticker_fraction.py     /path/to/Thermo_*.dat
    python3 analysis/radial_profiles.py             /path/to/restarts
 
-Model Details (at a glance)
-===========================
-- **Bonds (connectivity):** harmonic (``bond_style harmonic``), typical ``r0 = 10 Å``, ``K_b = 3 k_B T Å⁻²`` (units ``real``).
-- **Angles (flexibility):** cosine (``angle_style cosine``), typical ``κ = 2 k_B T``.
-- **Specific bonds:** shifted harmonic well of depth ``E_s``; stickers bond with probability ``p_on`` within ``r_cut`` and break with ``p_off`` beyond ``r_cut`` (valency = 1).
-- **Non-specific LJ:** depth ``E_ns``, cutoff ``r_mm = 2.5 σ``; bonded pairs LJ off.
 
-For the full rationale and parameterization, see :doc:`usage/model_overview`.
 
 Get Started / Learn More
 ========================
