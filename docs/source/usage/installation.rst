@@ -79,6 +79,7 @@ Harvard cluster: prerequisites
    .. code-block:: bash
 
       module avail    # confirm available module names
+      # This would be your HPC specific; so modify the version number accordingly  
       module load cmake/3.31.6-fasrc01
       module load gcc/14.2.0-fasrc01
       module load openmpi/5.0.5-fasrc01
@@ -218,5 +219,4 @@ Troubleshooting
   Re-run CMake with ``-DPKG_MC=on`` and rebuild.
 
 * **“New bond exceeded bonds per atom …”**  
-  Increase ``maxbond`` in the ``bond/create/random`` command or raise
-  ``extra/special/per/atom`` in the ``read_data`` section.
+   Raise ``extra bond per atom`` count in your ``.data`` file, and update ``extra/special/per/atom`` in the ``read_data`` section of your input script.
