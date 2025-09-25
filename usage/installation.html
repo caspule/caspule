@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; CASPULE 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="../_static/Icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Model Overview" href="model_overview.html" />
+    <link rel="prev" title="CASPULE — Setup • Simulate • Analyze Sticker–Spacer Polymers" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/Logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-packmol-moltemplate">Install Packmol &amp; Moltemplate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-environment-analysis-tools">Python environment (analysis tools)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#harvard-cluster-prerequisites">Harvard cluster: prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configure-build-harvard-cluster">Configure &amp; build (Harvard cluster)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sanity-check">Sanity check</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#macos-prerequisites">macOS: prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configure-build-macos">Configure &amp; build (macOS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="model_overview.html">Model Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_system_setup.html">Example System Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulation_output.html">Simulation Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_analysis.html">Data-Analysis Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CASPULE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/usage/installation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>This guide provides steps on how to compile <strong>LAMMPS 3 Mar 2020</strong> with the
+custom <code class="docutils literal notranslate"><span class="pre">bond/create/random</span></code> fix needed to define intersticker crosslinks, and set up the Python tools used for
+<strong>data analysis</strong>.</p>
+<p>We provide two examples of setting up the environment:</p>
+<ul class="simple">
+<li><p><strong>High Performance Computing (Harvard FASRC cluster in our example) facility</strong> (CMake, GCC ≥ 14, Open MPI modules); this procedure can be easily adapted to personal linux (or WSL in Windows) machines.</p></li>
+<li><p><strong>macOS</strong> (Conda environment, CMake, Open MPI)</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">bond/create/random</span></code> fix is <em>not</em> part of vanilla 3 Mar 2020.
+We patch it in manually from the
+<a class="reference external" href="https://github.com/pdebuyl/lammps/tree/fbc_random/src/MC">pdebuyl/lammps fbc_random branch</a>.</p>
+</div>
+<section id="install-packmol-moltemplate">
+<h2>Install Packmol &amp; Moltemplate<a class="headerlink" href="#install-packmol-moltemplate" title="Link to this heading"></a></h2>
+<p>CASPULE Step 1 requires <strong>Packmol</strong> and <strong>Moltemplate</strong> on your <code class="docutils literal notranslate"><span class="pre">$PATH</span></code>.</p>
+<p><strong>Conda (recommended, Linux/macOS):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>packmol<span class="w"> </span>moltemplate
+</pre></div>
+</div>
+<p><strong>From source / project pages:</strong></p>
+<ul class="simple">
+<li><p>Packmol: <a class="reference external" href="https://m3g.iqm.unicamp.br/packmol">official site</a> (download + build)</p></li>
+<li><p>Moltemplate: <a class="reference external" href="https://moltemplate.org/">docs &amp; downloads</a>  |  <a class="reference external" href="https://github.com/jewettaij/moltemplate">GitHub</a></p></li>
+</ul>
+<p>Verify:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>packmol<span class="w"> </span>-v
+moltemplate.sh<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
+</pre></div>
+</div>
+</section>
+<section id="python-environment-analysis-tools">
+<h2>Python environment (analysis tools)<a class="headerlink" href="#python-environment-analysis-tools" title="Link to this heading"></a></h2>
+<p>CASPULE’s analysis scripts expect Python ≥ 3.9 and the packages below.</p>
+<p><strong>Conda (one line):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>caspule_py<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>networkx<span class="w"> </span>tqdm<span class="w"> </span>numba<span class="w"> </span>h5py<span class="w">  </span><span class="c1"># optional: seaborn mdtraj</span>
+conda<span class="w"> </span>activate<span class="w"> </span>caspule_py
+</pre></div>
+</div>
+<p><strong>Pip (inside a clean venv):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>networkx<span class="w"> </span>tqdm<span class="w"> </span>numba<span class="w"> </span>h5py<span class="w">  </span><span class="c1"># optional: seaborn mdtraj</span>
+</pre></div>
+</div>
+<p>Optional (Python↔LAMMPS):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>lammps-cython
+</pre></div>
+</div>
+</section>
+<section id="harvard-cluster-prerequisites">
+<h2>Harvard cluster: prerequisites<a class="headerlink" href="#harvard-cluster-prerequisites" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Start an interactive job</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>salloc<span class="w"> </span>-p<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--mem<span class="w"> </span>4G<span class="w"> </span>-t<span class="w"> </span><span class="m">0</span>-3:00
+</pre></div>
+</div>
+</li>
+<li><p><strong>Load build tools</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>avail<span class="w">    </span><span class="c1"># confirm available module names</span>
+<span class="c1"># This would be your HPC specific; so modify the version number accordingly</span>
+module<span class="w"> </span>load<span class="w"> </span>cmake/3.31.6-fasrc01
+module<span class="w"> </span>load<span class="w"> </span>gcc/14.2.0-fasrc01
+module<span class="w"> </span>load<span class="w"> </span>openmpi/5.0.5-fasrc01
+</pre></div>
+</div>
+</li>
+<li><p><strong>Download and unpack LAMMPS 3 Mar 2020</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://download.lammps.org/tars/lammps-3Mar2020.tar.gz
+tar<span class="w"> </span>-xf<span class="w"> </span>lammps-3Mar2020.tar.gz
+<span class="nb">cd</span><span class="w"> </span>lammps-3Mar2020
+</pre></div>
+</div>
+</li>
+<li><p><strong>Add the patched fix</strong> (create the directory if absent):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>src/MC
+cp<span class="w"> </span>/path/to/fix_bond_create_random.cpp<span class="w"> </span>src/MC/
+cp<span class="w"> </span>/path/to/fix_bond_create_random.h<span class="w">   </span>src/MC/
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="configure-build-harvard-cluster">
+<h2>Configure &amp; build (Harvard cluster)<a class="headerlink" href="#configure-build-harvard-cluster" title="Link to this heading"></a></h2>
+<ol class="arabic" start="5">
+<li><p><strong>Create a build directory</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+</pre></div>
+</div>
+</li>
+<li><p><strong>Configure with CMake</strong> (MPI build):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>../cmake<span class="w"> </span>-DBUILD_MPI<span class="o">=</span>on
+</pre></div>
+</div>
+</li>
+<li><p><strong>Enable required packages</strong> (old package names):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-DPKG_MC<span class="o">=</span>on<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-DPKG_MOLECULE<span class="o">=</span>on<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-DPKG_USER-MISC<span class="o">=</span>on<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-DPKG_USER-COLVARS<span class="o">=</span>on<span class="w"> </span>.
+</pre></div>
+</div>
+</li>
+<li><p><strong>Compile</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
+</pre></div>
+</div>
+<p>The resulting executable will be in:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">build</span><span class="o">/</span><span class="n">lmp</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="sanity-check">
+<h2>Sanity check<a class="headerlink" href="#sanity-check" title="Link to this heading"></a></h2>
+<p>Verify that the new fix is available:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./lmp<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>bond/create/random
+</pre></div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bond</span><span class="o">/</span><span class="n">create</span><span class="o">/</span><span class="n">random</span>       <span class="n">Create</span> <span class="n">bonds</span> <span class="p">(</span><span class="n">random</span> <span class="n">partner</span> <span class="n">selection</span><span class="p">)</span>  <span class="p">[</span><span class="n">MC</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="macos-prerequisites">
+<h2>macOS: prerequisites<a class="headerlink" href="#macos-prerequisites" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Install Conda and create a new environment</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>lammps_env
+conda<span class="w"> </span>activate<span class="w"> </span>lammps_env
+</pre></div>
+</div>
+</li>
+<li><p><strong>Install compilers and tools via Conda</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>cxx-compiler
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span><span class="nv">cmake</span><span class="o">=</span><span class="m">3</span>.31.6
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>openmpi
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="configure-build-macos">
+<h2>Configure &amp; build (macOS)<a class="headerlink" href="#configure-build-macos" title="Link to this heading"></a></h2>
+<ol class="arabic" start="3">
+<li><p><strong>Download and unpack LAMMPS 3 Mar 2020</strong> (same as above):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-O<span class="w"> </span>https://download.lammps.org/tars/lammps-3Mar2020.tar.gz
+tar<span class="w"> </span>-xf<span class="w"> </span>lammps-3Mar2020.tar.gz
+<span class="nb">cd</span><span class="w"> </span>lammps-3Mar2020
+</pre></div>
+</div>
+</li>
+<li><p><strong>Add the patched fix</strong> (same as above).</p></li>
+<li><p><strong>Create a build directory</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+</pre></div>
+</div>
+</li>
+<li><p><strong>Configure with CMake</strong> (specify C++14 standard):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>../cmake<span class="w"> </span>-DCMAKE_CXX_STANDARD<span class="o">=</span><span class="m">14</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Enable required packages</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-DPKG_MC<span class="o">=</span>on<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-DPKG_MOLECULE<span class="o">=</span>on<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-DPKG_USER-MISC<span class="o">=</span>on<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-DPKG_USER-COLVARS<span class="o">=</span>on<span class="w"> </span>.
+</pre></div>
+</div>
+</li>
+<li><p><strong>Compile</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>-j<span class="k">$(</span>sysctl<span class="w"> </span>-n<span class="w"> </span>hw.ncpu<span class="k">)</span>
+</pre></div>
+</div>
+<p>The executable will be in:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">build</span><span class="o">/</span><span class="n">lmp</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>“Packmol/Moltemplate not found”</strong>
+Confirm they’re installed and on <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> (see commands above).</p></li>
+<li><p><strong>“Package MC is not enabled”</strong>
+Re-run CMake with <code class="docutils literal notranslate"><span class="pre">-DPKG_MC=on</span></code> and rebuild.</p></li>
+<li><dl class="simple">
+<dt><strong>“New bond exceeded bonds per atom …”</strong></dt><dd><p>Raise <code class="docutils literal notranslate"><span class="pre">extra</span> <span class="pre">bond</span> <span class="pre">per</span> <span class="pre">atom</span></code> count in your <code class="docutils literal notranslate"><span class="pre">.data</span></code> file, and update <code class="docutils literal notranslate"><span class="pre">extra/special/per/atom</span></code> in the <code class="docutils literal notranslate"><span class="pre">read_data</span></code> section of your input script.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="CASPULE — Setup • Simulate • Analyze Sticker–Spacer Polymers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_overview.html" class="btn btn-neutral float-right" title="Model Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aniruddha Chattaraj, David Kanovich.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
