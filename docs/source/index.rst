@@ -1,8 +1,7 @@
 CASPULE — Setup • Simulate • Analyze Sticker–Spacer Polymers
 ============================================================
 
-**CASPULE**: **C**ompute
-****Computational **A**nalysis of **S**ticker Spacer **P**olymeric Condensates **U**sing **L**AMMPS **E**ngine is a pipeline for Langevin Dynamics simulations of coarse-grained biopolymers. It automates system setup, LAMMPS simulation, and analysis of sticker–spacer polymer phase behavior. It provides an end-to-end reproducible computational protocol to simulate and analyze biological condensates. 
+**CASPULE** (**C**omputational  A+Unicode 0332 nalysis of Sticker Spacer Polymeric Condensates Using LAMMPS Engine) is a pipeline for Langevin Dynamics simulations of coarse-grained biopolymers. It automates system setup, LAMMPS simulation, and analysis of sticker–spacer polymer phase behavior. It provides an end-to-end reproducible computational protocol to simulate and analyze biological condensates. 
 
 Overview
 ========
