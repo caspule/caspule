@@ -6,10 +6,10 @@ This page describes a typical set of model parameters (force-fields) used in the
 
 .. rubric:: Scope & Rationale
 
-* We model **purely heterotypic** interactions between *complementary*
+* We typically model **heterotypic** interactions between *complementary*
   sticker types (e.g., inspired by SH3–PRM or SUMO–SIM systems),
-  where cross-links generate an intra-condensate network.
-* A **two-component** (A/B) formulation serves as a **minimal model** for
+  where intersticker crosslinks generate an intra-condensate network.
+* A **two-component** (A & B) system serves as a **minimal model** for
   multicomponent biological condensates.
 * Insights are expected to transfer to **homotypic** (single-component)
   condensates provided the biopolymer follows a **sticker–spacer architecture**.
