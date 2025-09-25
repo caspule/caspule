@@ -1,12 +1,13 @@
 Installation
 ============
 
-This guide walks you through compiling **LAMMPS 3 Mar 2020** with the
-custom ``bond/create/random`` fix needed for the *generate_InitCond*
-polymer-network examples, and setting up the Python tools used for
-**data analysis**. Two build environments are supported:
+This guide provides steps on how to compile **LAMMPS 3 Mar 2020** with the
+custom ``bond/create/random`` fix needed to define intersticker crosslinks, and set up the Python tools used for
+**data analysis**. 
 
-- **Harvard FASRC-style cluster** (CMake, GCC ≥ 14, Open MPI modules)
+We provide two examples of setting up the environment:
+
+- **High Performance Computing (Harvard FASRC cluster in our example) facility** (CMake, GCC ≥ 14, Open MPI modules); this procedure can be easily adapted to personal linux (or WSL in Windows) machines.
 - **macOS** (Conda environment, CMake, Open MPI)
 
 .. note::
