@@ -8,8 +8,8 @@ This section walks through a complete, working example:
 
 .. note::
 
-   A ready-to-download folder with example scripts and files is available at our `GitHub repository <https://github.com/pdebuyl/lammps/tree/fbc_random/src/MC>
-   
+   A ready-to-download folder with example scripts and files is available at our `GitHub repository <https://github.com/caspule/caspule/tree/main/example>_`.
+
 Generating Initial Condition
 -----------------------------------------------------
 
