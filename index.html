@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CASPULE — Setup • Simulate • Analyze Sticker–Spacer Polymers &mdash; CASPULE 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="_static/Icon.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="usage/installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#">
+            
+              <img src="_static/Logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/model_overview.html">Model Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/pipeline.html">Pipeline Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/example_system_setup.html">Example System Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/simulation_output.html">Simulation Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/data_analysis.html">Data-Analysis Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">CASPULE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">CASPULE — Setup • Simulate • Analyze Sticker–Spacer Polymers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="caspule-setup-simulate-analyze-stickerspacer-polymers">
+<h1>CASPULE — Setup • Simulate • Analyze Sticker–Spacer Polymers<a class="headerlink" href="#caspule-setup-simulate-analyze-stickerspacer-polymers" title="Link to this heading"></a></h1>
+<p><strong>CASPULE</strong>, (<strong>C</strong>)ondensate (<strong>A</strong>)nalysis of (<strong>S</strong>)ticker Spacer (<strong>P</strong>)olymers (<strong>U</strong>)sing the (<strong>L</strong>)AMMPS (<strong>E</strong>)ngine, is a pipeline for Langevin Dynamics simulations of coarse-grained biopolymers. It automates system setup, <a class="reference external" href="https://www.lammps.org/#gsc.tab=0">LAMMPS</a> simulation, and analysis of sticker–spacer polymer phase behavior. It provides an end-to-end reproducible computational protocol to simulate and analyze biological condensates.</p>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h1>
+<p>CASPULE is a <strong>three-stage pipeline</strong> for simulations of sticker–spacer polymers:</p>
+<ul class="simple">
+<li><p><strong>Step 1 — Setup:</strong> Build arbitrary <strong>lengths</strong> and <strong>patterns</strong>; generate Packmol + Moltemplate inputs and a LAMMPS-ready <code class="docutils literal notranslate"><span class="pre">*.data</span></code> (initial condition).</p></li>
+<li><p><strong>Step 2 — Simulate:</strong> Run <strong>Langevin dynamics</strong> (with optional <strong>metadynamics</strong> via Colvars) in LAMMPS; supports MPI + load balancing.</p></li>
+<li><p><strong>Step 3 — Analyze:</strong> Turn trajectories/restarts into <strong>cluster statistics</strong>, <strong>bonded-sticker fractions</strong>, <strong>radial profiles</strong>, and <strong>energy timecourses</strong>.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/graphical_summary.gif" src="_images/graphical_summary.gif" />
+</figure>
+<section id="why-caspule">
+<h2>Why CASPULE?<a class="headerlink" href="#why-caspule" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Arbitrary patterns &amp; lengths:</strong> Repeatable block templates let you sweep architectures systematically.</p></li>
+<li><p><strong>Saturating interaction:</strong> Single-valent sticker interaction (to mimic saturable biomolecular interactions) and tunable <code class="docutils literal notranslate"><span class="pre">E_s</span></code> vs <code class="docutils literal notranslate"><span class="pre">E_ns</span></code>.</p></li>
+<li><p><strong>Batteries-included analysis:</strong> Reproducible Python tools for kinetics and steady-state structure.</p></li>
+</ul>
+</section>
+</section>
+<section id="quick-start-end-to-end">
+<h1>Quick Start (End-to-End)<a class="headerlink" href="#quick-start-end-to-end" title="Link to this heading"></a></h1>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>Ensure these are on <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> (or module-loaded):</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://m3g.github.io/packmol/">packmol</a></p></li>
+<li><p><a class="reference external" href="https://www.moltemplate.org/">moltemplate</a></p></li>
+<li><p><strong>LAMMPS</strong> with <code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">bond/create/random</span></code>, <code class="docutils literal notranslate"><span class="pre">bond/break</span></code>, Colvars (for metadynamics), MPI build recommended</p></li>
+<li><p>Python 3 with the packages listed in <a class="reference internal" href="usage/installation.html"><span class="doc">Installation</span></a></p></li>
+</ul>
+</section>
+<section id="step-1-setup-build-data-inputs">
+<h2>Step 1 — Setup (build data + inputs)<a class="headerlink" href="#step-1-setup-build-data-inputs" title="Link to this heading"></a></h2>
+<p>Run the setup wrapper; it orchestrates all sub-steps.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">create_InitCoor</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>Behind the scenes, CASPULE executes:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">LT_writer.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;n&gt;</span>&#160; <span class="pre">&lt;seg_pattern&gt;</span></code>             (make block templates)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">writePackmolInput.py</span>&#160;&#160;&#160; <span class="pre">&lt;n&gt;</span>&#160; <span class="pre">&lt;NA&gt;</span> <span class="pre">&lt;NB&gt;</span> <span class="pre">&lt;L&gt;</span>&#160; <span class="pre">populate_tmp.inp</span>&#160; <span class="pre">IC_tmp.xyz</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">writeSysLT.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;n&gt;</span>&#160; <span class="pre">&lt;NA&gt;</span> <span class="pre">&lt;NB&gt;</span> <span class="pre">&lt;L&gt;</span>&#160; <span class="pre">b70_N200_L&lt;L&gt;.lt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packmol</span> <span class="pre">&lt;</span> <span class="pre">populate_tmp.inp</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">moltemplate.sh</span> <span class="pre">-xyz</span> <span class="pre">IC_tmp.xyz</span> <span class="pre">b70_N200_L&lt;L&gt;.lt</span> <span class="pre">-nocheck</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">updateColVar.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">IC_tmp.xyz</span>&#160; <span class="pre">N200_Rg_L&lt;L&gt;.colvars</span>&#160; <span class="pre">&lt;L&gt;</span> <span class="pre">&lt;n&gt;</span> <span class="pre">&lt;NA&gt;</span> <span class="pre">&lt;NB&gt;</span> <span class="pre">&lt;seg_pattern&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">updateInput.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Template_input.in</span>&#160; <span class="pre">&lt;L&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">fix_datafiles.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">b70_N200_L&lt;L&gt;.data</span></code></p></li>
+</ol>
+<p>Artifacts produced:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IC_tmp</span><span class="o">.</span><span class="n">xyz</span>
+<span class="n">polyA_n</span><span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;.</span><span class="n">lt</span><span class="p">,</span> <span class="n">polyB_n</span><span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;.</span><span class="n">lt</span>
+<span class="n">b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="n">lt</span>
+<span class="n">b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="n">data</span>
+<span class="n">b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="ow">in</span>
+<span class="n">N200_Rg_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="n">colvars</span>
+<span class="n">submit_b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-simulate-langevin-metadynamics">
+<h2>Step 2 — Simulate (Langevin ± Metadynamics)<a class="headerlink" href="#step-2-simulate-langevin-metadynamics" title="Link to this heading"></a></h2>
+<p><strong>Vanilla Langevin:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpirun</span> <span class="o">-</span><span class="n">np</span> <span class="mi">40</span> <span class="n">lmp</span> <span class="o">-</span><span class="ow">in</span> <span class="n">b70_N200_L</span><span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;.</span><span class="ow">in</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="notes">
+<h1>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h1>
+<p><strong>Specific interaction</strong>
+Single-valent stickers via <code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">bond/create/random</span></code> + <code class="docutils literal notranslate"><span class="pre">bond/break</span></code>,
+with shifted-harmonic bonds (well depth <code class="docutils literal notranslate"><span class="pre">E_s</span></code>).</p>
+<p><strong>Non-specific interaction</strong>
+LJ (<code class="docutils literal notranslate"><span class="pre">pair_style</span> <span class="pre">lj/cut</span></code>) with well depth <code class="docutils literal notranslate"><span class="pre">E_ns</span></code>;
+LJ interactions between bonded beads are excluded (<code class="docutils literal notranslate"><span class="pre">special_bonds</span> <span class="pre">lj</span> <span class="pre">0</span> <span class="pre">1</span> <span class="pre">1</span> <span class="pre">angle</span> <span class="pre">yes</span></code>).</p>
+<p><strong>Typical parameter choices</strong>
+- <code class="docutils literal notranslate"><span class="pre">r0</span> <span class="pre">=</span> <span class="pre">1.122</span> <span class="pre">σ</span></code> with <code class="docutils literal notranslate"><span class="pre">σ</span> <span class="pre">=</span> <span class="pre">10</span> <span class="pre">Å</span></code>
+- <code class="docutils literal notranslate"><span class="pre">r_cut</span> <span class="pre">=</span> <span class="pre">r0</span> <span class="pre">+</span> <span class="pre">1.5</span> <span class="pre">Å</span></code>
+- <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">=</span> <span class="pre">310</span> <span class="pre">K</span></code>
+- timestep 20–30 fs
+- <code class="docutils literal notranslate"><span class="pre">tdamp</span> <span class="pre">≈</span> <span class="pre">500</span> <span class="pre">fs</span></code></p>
+<p><strong>Parallel scaling rule of thumb</strong>
+~500 beads / CPU; enable simulation load balancing for spatially heterogenous systems
+(<code class="docutils literal notranslate"><span class="pre">comm_style</span> <span class="pre">tiled</span></code> + <code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">balance</span></code>).</p>
+<p><strong>Metadynamics (optional):</strong> supply Colvars (e.g., <code class="docutils literal notranslate"><span class="pre">N200_Rg_L&lt;L&gt;.colvars</span></code>) to accelerate process of interest (clustering, coalescence etc.) along user defined collective variables (Rg, Inter-cluster distance etc.).</p>
+<section id="step-3-analyze-one-command-reports">
+<h2>Step 3 — Analyze (one-command reports)<a class="headerlink" href="#step-3-analyze-one-command-reports" title="Link to this heading"></a></h2>
+<p>Use the analysis scripts in <a class="reference internal" href="usage/data_analysis.html"><span class="doc">Data-Analysis Helpers</span></a> to compute:</p>
+<ul class="simple">
+<li><p><strong>Cluster size distributions</strong> (graph-based from <code class="docutils literal notranslate"><span class="pre">*.restart</span></code>)</p></li>
+<li><p><strong>Bonded-sticker fraction vs time</strong></p></li>
+<li><p><strong>Radial density profiles</strong> (stickers vs spacers)</p></li>
+<li><p><strong>Potential energy timecourses</strong> (convergence diagnostics)</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">analysis</span><span class="o">/</span><span class="n">cluster_size_distribution</span><span class="o">.</span><span class="n">py</span>   <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sim_folder</span>
+<span class="n">python3</span> <span class="n">analysis</span><span class="o">/</span><span class="n">bonded_sticker_fraction</span><span class="o">.</span><span class="n">py</span>     <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">Thermo_</span><span class="o">*.</span><span class="n">dat</span>
+<span class="n">python3</span> <span class="n">analysis</span><span class="o">/</span><span class="n">radial_profiles</span><span class="o">.</span><span class="n">py</span>             <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">restarts</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="get-started-learn-more">
+<h1>Get Started / Learn More<a class="headerlink" href="#get-started-learn-more" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#install-packmol-moltemplate">Install Packmol &amp; Moltemplate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#python-environment-analysis-tools">Python environment (analysis tools)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#harvard-cluster-prerequisites">Harvard cluster: prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#configure-build-harvard-cluster">Configure &amp; build (Harvard cluster)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#sanity-check">Sanity check</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#macos-prerequisites">macOS: prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#configure-build-macos">Configure &amp; build (macOS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/model_overview.html">Model Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/model_overview.html#polymer-force-fields">Polymer Force-Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/model_overview.html#specific-stickersticker-interactions">Specific (Sticker–Sticker) Interactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/model_overview.html#nonspecific-all-bead-interactions">Nonspecific (All-Bead) Interactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/model_overview.html#energy-units-reporting">Energy Units &amp; Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/model_overview.html#quick-reference-tables">Quick Reference Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/pipeline.html">Pipeline Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/example_system_setup.html">Example System Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/example_system_setup.html#generating-initial-condition">Generating Initial Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/example_system_setup.html#inspecting-b70-n200-l500-data">Inspecting “b70_N200_L500.data”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/example_system_setup.html#inspecting-n200-rg-l500-colvars">Inspecting “N200_Rg_L500.colvars”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/example_system_setup.html#inspecting-b70-n200-l500-in">Inspecting “b70_N200_L500.in”</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/simulation_output.html">Simulation Output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#thermodynamic-data-thermo-fname-dat">Thermodynamic Data: <code class="docutils literal notranslate"><span class="pre">Thermo_&lt;fName&gt;.dat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#bond-formation-breaking-data-bonddata-fname-dat">Bond-Formation/Breaking Data: <code class="docutils literal notranslate"><span class="pre">BondData_&lt;fName&gt;.dat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#collective-variable-trajectory-fname-colvars-traj">Collective-Variable Trajectory: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.traj</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#lammps-dump-trajectory-traj-fname-dump">LAMMPS Dump Trajectory: <code class="docutils literal notranslate"><span class="pre">traj_&lt;fName&gt;.dump</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#colvars-metadynamics-hills-fname-colvars-meta-radgy-hills-traj">Colvars Metadynamics Hills: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.colvars.meta-radgy.hills.traj</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#potential-of-mean-force-pmf-fname-pmf">Potential of Mean Force (PMF): <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.pmf</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#restart-files">Restart Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#lammps-log-file-fname-log">LAMMPS Log File: <code class="docutils literal notranslate"><span class="pre">&lt;fName&gt;.log</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/simulation_output.html#summary-of-all-simulation-outputs">Summary of All Simulation Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/data_analysis.html">Data-Analysis Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#potential-energy-trace">Potential-Energy Trace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#bonded-sticker-fraction-bsf-time-series">Bonded-Sticker Fraction (BSF) – time series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#cluster-size-vs-bound-sticker-fraction-scatter">Cluster Size vs Bound-Sticker Fraction (scatter)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#sticker-dissociation-events">Sticker Dissociation Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#cluster-size-distribution">Cluster-Size Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#radial-sticker-spacer-density">Radial Sticker / Spacer Density</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#chain-neighbour-histogram">Chain-Neighbour Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#sticker-bond-multiplicity-per-chain-pair">Sticker-Bond Multiplicity per Chain Pair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/data_analysis.html#inter-molecular-stickersticker-distances">Inter-molecular Sticker‑Sticker Distances</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html#core-pipeline-utilities">Core pipeline utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/modules.html#analysis-helpers">Analysis helpers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="contributing-issues">
+<h2>Contributing &amp; Issues<a class="headerlink" href="#contributing-issues" title="Link to this heading"></a></h2>
+<p>Please open issues or PRs on the repository. Include your LAMMPS version/tag and whether Colvars + bond/create/random are enabled.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage/installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aniruddha Chattaraj, David Kanovich.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
