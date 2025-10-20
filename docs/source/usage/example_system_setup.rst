@@ -428,7 +428,7 @@ Reads the data file `b70_N200_L300.data`, allowing 50 special bond tags per atom
 - `bond_coeff 1 harmonic 3 10`: Type 1 bonds: K = 3, length = 10 Å.
 - `bond_coeff 2 harmonic 3 10`: Type 2 bonds: K = 3, length = 10 Å.
 - `bond_coeff 3 harmonic/shift/cut 6 11.22 12.72`: Type 3 (sticker-sticker)bonds: K = 6, eq = 11.22 Å, cutoff = 12.72 Å.
-)
+
 .. code-block:: text
 
     pair_style lj/cut 25
