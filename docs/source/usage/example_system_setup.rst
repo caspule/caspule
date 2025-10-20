@@ -6,6 +6,10 @@ This section walks through a complete, working example:
 2. Launching a short LAMMPS simulation
 3. Examining the key output files and results
 
+.. note::
+
+   A ready-to-download folder with example scripts and files is available at our `GitHub repository <https://github.com/pdebuyl/lammps/tree/fbc_random/src/MC>
+   
 Generating Initial Condition
 -----------------------------------------------------
 

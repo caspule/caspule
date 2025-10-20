@@ -18,7 +18,7 @@ Core pipeline utilities
 fix_datafiles                     
 ~~~~~~~~~~~~~
 
-.. automodule:: fix_datafiles
+.. automodule:: example.fix_datafiles
    :members:
    :private-members:
    :undoc-members:
@@ -28,7 +28,7 @@ fix_datafiles
 LT_writer
 ~~~~~~~~~
 
-.. automodule:: LT_writer
+.. automodule:: example.LT_writer
    :members:
    :private-members:
    :undoc-members:
@@ -38,7 +38,7 @@ LT_writer
 writePackmolInput
 ~~~~~~~~~~~~~~~~~
 
-.. automodule:: writePackmolInput
+.. automodule:: example.writePackmolInput
    :members:
    :private-members:
    :undoc-members:
@@ -48,7 +48,7 @@ writePackmolInput
 writeSysLT
 ~~~~~~~~~~
 
-.. automodule:: writeSysLT
+.. automodule:: example.writeSysLT
    :members:
    :private-members:
    :undoc-members:
@@ -58,7 +58,7 @@ writeSysLT
 updateColVar
 ~~~~~~~~~~~~
 
-.. automodule:: updateColVar
+.. automodule:: example.updateColVar
    :members:
    :private-members:
    :undoc-members:
@@ -68,7 +68,7 @@ updateColVar
 updateInput
 ~~~~~~~~~~~
 
-.. automodule:: updateInput
+.. automodule:: example.updateInput
    :members:
    :private-members:
    :undoc-members:
