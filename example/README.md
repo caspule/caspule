@@ -7,4 +7,4 @@ sh create_InitCoor.sh
 ```
 
 Modify create_InitCoor.sh to create inital conditions with different box sizes, chain counts, chain types, and more!
-Extensive documentation is available on our website: [https://caspule.github.io/caspule/usage/example_system_setup.html](url)
+Extensive documentation is available on our website: [Example system setup guide](https://caspule.github.io/caspule/usage/example_system_setup.html)
