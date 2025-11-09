@@ -84,7 +84,7 @@ The helper chain executed by *create_InitCoor.sh*:
 
 *Creates* :file:`populate_tmp.inp` containing **two** ``structure`` blocks,
 each requesting ``NA`` or ``NB`` copies inside the cube
-:math:`[-(L-20), (L-20)]^3` with 10 Å clearance.
+:math:`[-(L-10), (L-10)]^3` with 10 Å clearance.
 
 .. rubric:: 3.3 Packmol — coordinate packing
 

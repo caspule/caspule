@@ -16,12 +16,12 @@ def generate_packmol_input(n, NA, NB, L, inp_file, outfile):
 
         tf.write(f'structure polyA_n{n}_mono.xyz\n')
         tf.write(f'\tnumber {NA}\n')
-        tf.write(f'\tinside box  {-L+20}  {-L+20} {-L+20}  {L-20} {L-20} {L-20}\n')
+        tf.write(f'\tinside box  {-L+10}  {-L+10} {-L+10}  {L-10} {L-10} {L-10}\n')
         tf.write('end structure\n\n')
 
         tf.write(f'structure polyB_n{n}_mono.xyz\n')
         tf.write(f'\tnumber {NB}\n')
-        tf.write(f'\tinside box  {-L+20}  {-L+20} {-L+20}  {L-20} {L-20} {L-20}\n')
+        tf.write(f'\tinside box  {-L+10}  {-L+10} {-L+10}  {L-10} {L-10} {L-10}\n')
         tf.write('end structure\n')
 
 
