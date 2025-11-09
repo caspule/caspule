@@ -6,7 +6,7 @@ def generate_syslt(n, NA, NB, L, fName):
     Create a Moltemplate .lt file that imports polyA_n<n>.lt and polyB_n<n>.lt,
     defines NA and NB copies, and writes the Data Boundary block.
     """
-    L_bound = L + 20
+    L_bound = L
 
     with open(fName, 'w') as tf:
         tf.write(f'import "polyA_n{n}.lt" \n')

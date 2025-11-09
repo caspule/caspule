@@ -24,6 +24,9 @@ import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 
 
+font = {'family': 'arial', 'size': 16}
+plt.rc('font', **font)
+
 # ──────────────────────────────────────────────────────────────────────────
 # internal utilities
 # ──────────────────────────────────────────────────────────────────────────

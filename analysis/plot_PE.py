@@ -21,6 +21,9 @@ from matplotlib.axes import Axes
 # ----------------------------------------------------------------------
 
 
+font = {'family': 'arial', 'size': 16}
+plt.rc('font', **font)
+
 def plot_pe(file_path: str | Path, ax: Optional[Axes] = None) -> Axes:
     """
     Plot *potential energy* (column 3) as a function of *timestep* (column 0).

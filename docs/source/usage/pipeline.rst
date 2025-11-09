@@ -27,7 +27,7 @@ which files it consumes, and which files it writes.
    * - ``NA`` / ``NB``
      - Number of **A-chains** / **B-chains** (``100`` / ``100``)
    * - ``L``
-     - Half-box length (``500 Å``) → Packmol cube :math:`[-(L+20), (L+20)]^3`
+     - Half-box length (``500 Å``) → Packmol cube :math:`[-(L), (L)]^3`
 
 All filenames downstream are built from these numbers, e.g.
 :file:`b70_N200_L500.lt` (``b`` = 70 beads, ``N200`` = 100 + 100
@@ -84,7 +84,7 @@ The helper chain executed by *create_InitCoor.sh*:
 
 *Creates* :file:`populate_tmp.inp` containing **two** ``structure`` blocks,
 each requesting ``NA`` or ``NB`` copies inside the cube
-:math:`[-(L+20), (L+20)]^3` with 10 Å clearance.
+:math:`[-(L-20), (L-20)]^3` with 10 Å clearance.
 
 .. rubric:: 3.3 Packmol — coordinate packing
 
@@ -110,7 +110,7 @@ Replicates monomers, randomises orientation, outputs one XYZ:
 
 Imports the monomer LTs, instantiates *NA + NB* polymers, defines
 back-bone bond/angle types, and writes a *Data Boundary* block
-± (L + 20) Å.
+± (L) Å.
 
 .. rubric:: 3.5 Moltemplate — LT + XYZ → LAMMPS Data
 

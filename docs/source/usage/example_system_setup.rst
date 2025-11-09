@@ -36,9 +36,9 @@ Assigns the pattern string `2212212` to `seg`. Each digit indicates whether that
 
 .. code-block:: bash
 
-    L=300
+    L=400
 
-Sets the half-box length to 300 Å in each direction.
+Sets the half-box length to 400 Å in each direction.
 
 .. code-block:: bash
 
@@ -74,7 +74,7 @@ Runs `LT_writer.py 10 2212212`, generating:
 
     python3 writePackmolInput.py $n $NA $NB $L $pck_inp $pck_out
 
-Runs `writePackmolInput.py 10 100 100 300 populate_tmp.inp IC_tmp.xyz`. Creates `populate_tmp.inp` to place 100 A-chains and 100 B-chains inside a 600 Å cube.
+Runs `writePackmolInput.py 10 100 100 300 populate_tmp.inp IC_tmp.xyz`. Creates `populate_tmp.inp` to place 100 A-chains and 100 B-chains inside a 800 Å\ :sup:`3` cube.
 
 .. code-block:: bash
 
@@ -161,11 +161,11 @@ A comment/header indicating this is a Moltemplate-generated data file.
 
 .. code-block:: text
 
-    -420.0 420.0 xlo xhi
-    -420.0 420.0 ylo yhi
-    -420.0 420.0 zlo zhi
+    -400.0 400.0 xlo xhi
+    -400.0 400.0 ylo yhi
+    -400.0 400.0 zlo zhi
 
-Simulation box ranges from –420 Å to +420 Å in each dimension (since `L=300` plus buffer).
+Simulation box ranges from –400 Å to +400 Å in each dimension (since `L=400`).
 
 .. code-block:: text
 

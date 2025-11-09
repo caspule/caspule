@@ -14,6 +14,9 @@ import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 
 
+font = {'family': 'arial', 'size': 16}
+plt.rc('font', **font)
+
 def plot_sd(file_path: str | Path, ax: Optional[Axes] = None) -> Axes:
     """
     Plot *sticker dissociation events* (Δ broken bonds per thermo dump).

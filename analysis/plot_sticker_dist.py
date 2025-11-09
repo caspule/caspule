@@ -30,6 +30,9 @@ from scipy.spatial.distance import pdist
 import networkx as nx   # only to satisfy IDEs; not used at runtime
 
 
+font = {'family': 'arial', 'size': 16}
+plt.rc('font', **font)
+
 # ──────────────────────────────────────────────────────────────────────────
 # internal parser
 # ──────────────────────────────────────────────────────────────────────────

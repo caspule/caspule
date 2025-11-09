@@ -4,7 +4,7 @@ seg=2212212 # segment pattern
 NA=100 # A-chain count
 NB=100 # B-chain count 
 
-L=300
+L=400
 
 pck_inp='populate_tmp.inp'
 

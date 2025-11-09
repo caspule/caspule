@@ -22,6 +22,9 @@ import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 
 
+font = {'family': 'arial', 'size': 16}
+plt.rc('font', **font)
+
 def _load_atoms(file_path: Path) -> List[Tuple[int, float, float, float]]:
     """Return list of tuples (type, x, y, z)."""
     atoms: list[Tuple[int, float, float, float]] = []

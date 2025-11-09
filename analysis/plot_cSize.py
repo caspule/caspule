@@ -19,6 +19,9 @@ import numpy as np
 from matplotlib.axes import Axes
 
 
+font = {'family': 'arial', 'size': 16}
+plt.rc('font', **font)
+
 def _read_snapshot(file_path: Path) -> Tuple[List[int], List[Tuple[int, int]]]:
     mol_ids: list[int] = []
     bonds: list[Tuple[int, int]] = []
