@@ -27,7 +27,7 @@ which files it consumes, and which files it writes.
    * - ``NA`` / ``NB``
      - Number of **A-chains** / **B-chains** (``100`` / ``100``)
    * - ``L``
-     - Half-box length (``500 Å``) → Packmol cube :math:`[-(L), (L)]^3`
+     - Half-box length (``500 Å``) → Simulation box :math:`[-(L), (L)]^3`
 
 All filenames downstream are built from these numbers, e.g.
 :file:`b70_N200_L500.lt` (``b`` = 70 beads, ``N200`` = 100 + 100
