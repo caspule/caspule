@@ -113,7 +113,7 @@ def plot_pair_bond_hist(
                 va="center", fontsize=9, color="grey")
         ax.set_facecolor("#f7f7f7")
 
-    ax.set_xlabel("# type-1 ⇄ type-3 bonds connecting a chain pair")
+    ax.set_xlabel("# type-1/type-3 bonds connecting a chain pair")
     ax.set_ylabel("# chain pairs")
     ax.set_title(snapshot_file.name)
     ax.grid(axis="y", linestyle=":", linewidth=0.4)

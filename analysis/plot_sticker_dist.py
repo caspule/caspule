@@ -166,7 +166,7 @@ def plot_sticker_hist(
     if log_scale:
         ax.set_yscale("log")
 
-    ax.set_xlabel(r"Distance $r\;(\sigma)$")
+    ax.set_xlabel(r"Distance r (Å)")
     ax.set_ylabel("Raw count per bin")
     ax.set_title("Type-1/3 inter-molecular distance histograms")
     ax.legend(fontsize="small")

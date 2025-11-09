@@ -124,7 +124,7 @@ def plot_neighbour_hist(snapshot_file: str | Path,
     ax.set_xlabel("# of neighbours (degree)")
     ax.set_ylabel("# of chains")
     ax.set_title(snapshot_file.name)
-    ax.set_xticks(xs)
+    ax.set_xticks(list(range(0, max(xs) + 1)))
     ax.set_xlim(-0.5, max(xs, default=0) + 0.5)
     ax.grid(axis="y", linestyle=":", linewidth=0.4)
     plt.tight_layout()
