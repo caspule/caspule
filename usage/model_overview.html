@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model Overview &mdash; CASPULE 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="../_static/Icon.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pipeline Overview" href="pipeline.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/Logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Model Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#polymer-force-fields">Polymer Force-Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specific-stickersticker-interactions">Specific (Sticker–Sticker) Interactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nonspecific-all-bead-interactions">Nonspecific (All-Bead) Interactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#energy-units-reporting">Energy Units &amp; Reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-reference-tables">Quick Reference Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_system_setup.html">Example System Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulation_output.html">Simulation Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_analysis.html">Data-Analysis Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CASPULE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Model Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/usage/model_overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="model-overview">
+<h1>Model Overview<a class="headerlink" href="#model-overview" title="Link to this heading"></a></h1>
+<p>This page describes a typical set of model parameters (force-fields) used in the sticker spacer simulations. The values are mostly obtained from <a class="reference external" href="https://www.nature.com/articles/s41467-024-50489-5">Chattaraj 2024</a>, <a class="reference external" href="https://www.cell.com/biophysj/fulltext/S0006-3495(24)04098-0">Chattaraj 2025</a>.</p>
+<p class="rubric">Scope &amp; Rationale</p>
+<ul class="simple">
+<li><p>We typically model <strong>heterotypic</strong> interactions between <em>complementary</em>
+sticker types (e.g., inspired by SH3–PRM or SUMO–SIM systems),
+where intersticker crosslinks generate an intra-condensate network.</p></li>
+<li><p>A <strong>two-component</strong> (A &amp; B) system serves as a <strong>minimal model</strong> for
+multicomponent biological condensates.</p></li>
+<li><p>Insights are expected to transfer to <strong>homotypic</strong> (single-component)
+condensates provided the biopolymer follows a <strong>sticker–spacer architecture</strong>.</p></li>
+</ul>
+<p class="rubric">Design choices (at a glance)</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28.0%" />
+<col style="width: 72.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Aspect</strong></p></th>
+<th class="head"><p><strong>Choice / Consequence</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sticker valency</p></td>
+<td><p><span class="math notranslate nohighlight">\(1\)</span> (saturating); a sticker can participate in only one
+specific bond at a time.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Specific vs nonspecific</p></td>
+<td><p>Specific = reversible bonds between complementary stickers;
+nonspecific = Lennard–Jones contacts between any beads.</p></td>
+</tr>
+<tr class="row-even"><td><p>Update cadence</p></td>
+<td><p>Bond creation/breaking rules evaluated every <strong>20 timesteps</strong> to
+allow local relaxation after formation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Energies</p></td>
+<td><p>Inputs in kcal/mol; reported in <em>kT</em> with
+<span class="math notranslate nohighlight">\(1~kT \approx 0.6~\mathrm{kcal\,mol^{-1}}\)</span>.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="polymer-force-fields">
+<h2>Polymer Force-Fields<a class="headerlink" href="#polymer-force-fields" title="Link to this heading"></a></h2>
+<p>Connectivity and flexibility within each chain are enforced with harmonic
+bonds and cosine bending terms.</p>
+<p class="rubric">Bonds</p>
+<div class="math notranslate nohighlight">
+\[E_{\text{bond}} = K_b \,(R - R_0)^2\]</div>
+<p>with parameters:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 40.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Symbol</strong></p></th>
+<th class="head"><p><strong>Meaning</strong></p></th>
+<th class="head"><p><strong>Value</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R\)</span></p></td>
+<td><p>Distance between bonded beads</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(R_0\)</span></p></td>
+<td><p>Equilibrium bond length</p></td>
+<td><p><span class="math notranslate nohighlight">\(10~Å\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K_b\)</span></p></td>
+<td><p>Bond spring constant</p></td>
+<td><p><span class="math notranslate nohighlight">\(3~\mathrm{kcal\,mol^{-1}\,Å^{-2}}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Angles</p>
+<div class="math notranslate nohighlight">
+\[E_{\text{bend}} = \kappa \,\bigl(1-\cos\theta\bigr)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between three successive beads and
+<span class="math notranslate nohighlight">\(\kappa = 2~\mathrm{kcal\,mol^{-1}}\)</span> controls bending stiffness.</p>
+</section>
+<section id="specific-stickersticker-interactions">
+<h2>Specific (Sticker–Sticker) Interactions<a class="headerlink" href="#specific-stickersticker-interactions" title="Link to this heading"></a></h2>
+<p>Complementary stickers interact via <strong>reversible, saturating bonds</strong>
+(i.e., <strong>valency = 1</strong>). Bond formation/breaking depends <strong>only</strong> on
+inter-sticker distance under the settings below.</p>
+<a class="reference internal image-reference" href="../_images/specific_interaction.png"><img alt="Specific inter-sticker interaction energy vs distance" class="align-center" src="../_images/specific_interaction.png" style="width: 70%;" />
+</a>
+<p class="rubric">Switching rule</p>
+<ul class="simple">
+<li><p>If two complementary stickers are within <span class="math notranslate nohighlight">\(R_\mathrm{cut}\)</span>, they
+<strong>form</strong> a bond (probability <span class="math notranslate nohighlight">\(p_\mathrm{on}=1\)</span>).</p></li>
+<li><p>If a bonded pair reaches <span class="math notranslate nohighlight">\(R \ge R_\mathrm{cut}\)</span>, the bond
+<strong>breaks</strong> (probability <span class="math notranslate nohighlight">\(p_\mathrm{off}=1\)</span>).</p></li>
+<li><p>While bonded, the nonspecific LJ between the pair is <strong>disabled</strong>
+and replaced by the specific potential. Upon bond break, the LJ potential is reinstated.</p></li>
+</ul>
+<p class="rubric">Specific potential (shifted harmonic)</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}E_{\text{spec}}(R)
+=
+\frac{E_s}{(R_0 - R_\mathrm{cut})^2}
+\left[(R - R_0)^2 - \bigl(R_\mathrm{cut} - R_0\bigr)^2\right],
+\quad
+\begin{cases}
+  E_{\text{spec}}(R_0) = -E_s,\\[2pt]
+  E_{\text{spec}}(R_\mathrm{cut}) = 0,\\[2pt]
+  E_{\text{spec}}(R&gt;R_\mathrm{cut}) = 0~.
+\end{cases}\end{split}\]</div>
+<p>Parameters:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 48.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Parameter</strong></p></th>
+<th class="head"><p><strong>Meaning</strong></p></th>
+<th class="head"><p><strong>Value</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(E_s\)</span></p></td>
+<td><p>Well depth (“specific energy”); sets bond lifetime scale</p></td>
+<td><p>user-set; reported in <em>kT</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(R_0\)</span></p></td>
+<td><p>Resting bond distance</p></td>
+<td><p><span class="math notranslate nohighlight">\(1.122\,\sigma\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p>Bead diameter (model length unit)</p></td>
+<td><p><span class="math notranslate nohighlight">\(10~Å\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(R_\mathrm{cut}\)</span></p></td>
+<td><p>Specific bond cutoff</p></td>
+<td><p><span class="math notranslate nohighlight">\(R_0 + 1.5~Å\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(p_\mathrm{on},\,p_\mathrm{off}\)</span></p></td>
+<td><p>Attempt probabilities</p></td>
+<td><p><span class="math notranslate nohighlight">\(1,\,1\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Kinetics &amp; detailed balance</p>
+<ul class="simple">
+<li><p>With <span class="math notranslate nohighlight">\(p_\mathrm{on} = p_\mathrm{off} = 1\)</span>, stochasticity stems
+solely from <strong>diffusion</strong> and the <strong>energy landscape</strong>; bond state is
+determined by <span class="math notranslate nohighlight">\(R\)</span> relative to <span class="math notranslate nohighlight">\(R_\mathrm{cut}\)</span>.</p></li>
+<li><p>The <strong>bond lifetime</strong> scales as
+<span class="math notranslate nohighlight">\(\tau_{\text{bond}} \propto e^{E_s/kT}\)</span>; dissociation rates show
+Arrhenius behavior,
+<span class="math notranslate nohighlight">\(\text{Rate}\propto e^{-E_s/kT}\)</span> (consistent with thermal
+equilibration inside the well).</p></li>
+<li><p>Bond creation/breaking rules are evaluated once every <strong>20 timesteps</strong>
+to allow newly formed pairs to relax near <span class="math notranslate nohighlight">\(R_0\)</span>.</p></li>
+</ul>
+</section>
+<section id="nonspecific-all-bead-interactions">
+<h2>Nonspecific (All-Bead) Interactions<a class="headerlink" href="#nonspecific-all-bead-interactions" title="Link to this heading"></a></h2>
+<p>All bead pairs (stickers and spacers) experience an <strong>isotropic
+Lennard–Jones (LJ)</strong> interaction that enforces excluded volume and a
+moderate attraction.</p>
+<a class="reference internal image-reference" href="../_images/nonspecific_interaction.png"><img alt="Nonspecific LJ interaction energy vs distance" class="align-center" src="../_images/nonspecific_interaction.png" style="width: 70%;" />
+</a>
+<div class="math notranslate nohighlight">
+\[E_{\text{LJ}}(r) = 4\,E_{ns}
+\left[\left(\frac{\sigma}{r}\right)^{12}
+     - \left(\frac{\sigma}{r}\right)^6\right]\]</div>
+<p>with a truncation at <span class="math notranslate nohighlight">\(R_\mathrm{max}\)</span> for efficiency.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 48.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Parameter</strong></p></th>
+<th class="head"><p><strong>Meaning</strong></p></th>
+<th class="head"><p><strong>Value</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(E_{ns}\)</span></p></td>
+<td><p>LJ well depth (“nonspecific energy”); sets <strong>contact dwell time</strong></p></td>
+<td><p>user-set; reported in <em>kT</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p>Bead diameter</p></td>
+<td><p><span class="math notranslate nohighlight">\(10~Å\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R_\mathrm{max}\)</span></p></td>
+<td><p>LJ cutoff</p></td>
+<td><p><span class="math notranslate nohighlight">\(2.5\,\sigma\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Bonds vs. contacts — terminology</p>
+<ul class="simple">
+<li><p><strong>Bonds</strong> = <strong>specific</strong> sticker–sticker links (single valency,
+governed by <span class="math notranslate nohighlight">\(E_s\)</span>).</p></li>
+<li><p><strong>Contacts</strong> = <strong>nonspecific</strong> LJ interactions among any beads
+(governed by <span class="math notranslate nohighlight">\(E_{ns}\)</span>).</p></li>
+</ul>
+</section>
+<section id="energy-units-reporting">
+<h2>Energy Units &amp; Reporting<a class="headerlink" href="#energy-units-reporting" title="Link to this heading"></a></h2>
+<p>Simulation inputs use <strong>kcal/mol</strong> for <span class="math notranslate nohighlight">\(E_s\)</span> and <span class="math notranslate nohighlight">\(E_{ns}\)</span>.
+For analysis and figures, energies are reported in <strong>thermal units</strong>:</p>
+<div class="math notranslate nohighlight">
+\[1~kT \approx 0.6~\mathrm{kcal\,mol^{-1}}\]</div>
+<p>so that <span class="math notranslate nohighlight">\(E/kT\)</span> is dimensionless and temperature-explicit.</p>
+</section>
+<section id="quick-reference-tables">
+<h2>Quick Reference Tables<a class="headerlink" href="#quick-reference-tables" title="Link to this heading"></a></h2>
+<p class="rubric">Core parameters</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 40.0%" />
+<col style="width: 38.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Symbol</strong></p></th>
+<th class="head"><p><strong>Meaning</strong></p></th>
+<th class="head"><p><strong>Default / Example</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p>Bead diameter</p></td>
+<td><p><span class="math notranslate nohighlight">\(10~Å\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(R_0\)</span> (bonded)</p></td>
+<td><p>Specific bond rest distance</p></td>
+<td><p><span class="math notranslate nohighlight">\(1.122\,\sigma\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R_\mathrm{cut}\)</span> (bonded)</p></td>
+<td><p>Specific bond cutoff</p></td>
+<td><p><span class="math notranslate nohighlight">\(R_0 + 1.5~Å\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(R_\mathrm{max}\)</span> (LJ)</p></td>
+<td><p>LJ cutoff</p></td>
+<td><p><span class="math notranslate nohighlight">\(2.5\,\sigma\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K_b\)</span></p></td>
+<td><p>Bond spring constant</p></td>
+<td><p><span class="math notranslate nohighlight">\(3~\mathrm{kcal\,mol^{-1}\,Å^{-2}}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\kappa\)</span></p></td>
+<td><p>Bending stiffness</p></td>
+<td><p><span class="math notranslate nohighlight">\(2~\mathrm{kcal\,mol^{-1}}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(p_\mathrm{on},\,p_\mathrm{off}\)</span></p></td>
+<td><p>Specific attempt probabilities</p></td>
+<td><p><span class="math notranslate nohighlight">\(1,\,1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Update cadence</p></td>
+<td><p>Bond (create/break) evaluation interval</p></td>
+<td><p>every <strong>20</strong> timesteps</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Modeling notes</p>
+<ul class="simple">
+<li><p><strong>Association</strong> is diffusion-limited; <strong>dissociation</strong> requires
+crossing the specific energy barrier set by <span class="math notranslate nohighlight">\(E_s\)</span>.</p></li>
+<li><p>Observed dissociation decays <strong>exponentially</strong> with increasing
+<span class="math notranslate nohighlight">\(E_s\)</span> (Arrhenius-like), indicating thermalization within the
+specific well and consistency with detailed balance.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pipeline.html" class="btn btn-neutral float-right" title="Pipeline Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aniruddha Chattaraj, David Kanovich.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
