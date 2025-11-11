@@ -8,7 +8,7 @@ This section walks through a complete, working example:
 
 .. note::
 
-   A ready-to-download folder with example scripts and files is available at our `GitHub repository <https://github.com/caspule/caspule/tree/main/example>`_.
+   A ready-to-download folder with example scripts and files is available at our `GitHub repository <https://github.com/caspule/caspule/tree/main/examples>`_.
 
 Generating Initial Condition
 -----------------------------------------------------
